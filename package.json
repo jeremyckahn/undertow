@@ -1,0 +1,19 @@
+{
+  "name": "undertow",
+  "version": "0.0.0",
+  "description": "A platform for publishing web animations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jeremyckahn/undertow.git"
+  },
+  "author": "jeremyckahn@gmail.com",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/jeremyckahn/undertow/issues"
+  },
+  "homepage": "https://github.com/jeremyckahn/undertow#readme"
+}
