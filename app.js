@@ -5,8 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-
 var app = express();
 
 // view engine setup
@@ -22,6 +20,10 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/',
+  express.static(path.join(__dirname, 'node_modules/rekapi'))
+);
+
 app.use('/stylie',
   express.static(path.join(__dirname, 'node_modules/stylie'))
 );
@@ -29,8 +31,6 @@ app.use('/stylie',
 app.use('/mantra',
   express.static(path.join(__dirname, 'node_modules/mantra'))
 );
-
-app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

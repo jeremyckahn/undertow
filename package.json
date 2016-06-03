@@ -15,9 +15,10 @@
     "debug": "~2.2.0",
     "express": "~4.13.1",
     "jade": "~1.11.0",
+    "mantra": "git@github.com:jeremyckahn/mantra.git#gh-pages",
     "morgan": "~1.6.1",
+    "rekapi": "^1.7.1",
     "serve-favicon": "~2.3.0",
-    "stylie": "git@github.com:jeremyckahn/stylie.git#gh-pages",
-    "mantra": "git@github.com:jeremyckahn/mantra.git#gh-pages"
+    "stylie": "git@github.com:jeremyckahn/stylie.git#gh-pages"
   }
 }
