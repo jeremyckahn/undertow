@@ -19,7 +19,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/stylie',
+  express.static(path.join(__dirname, 'node_modules/stylie'))
+);
+
+app.use('/mantra',
+  express.static(path.join(__dirname, 'node_modules/mantra'))
+);
 
 app.use('/', routes);
 
