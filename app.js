@@ -2,8 +2,10 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var shell = require('shelljs');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var stylieRoutes = require('./routes/stylie');
 
 var app = express();
 
@@ -20,12 +22,19 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', stylieRoutes);
+
 app.use('/',
   express.static(path.join(__dirname, 'node_modules/rekapi'))
 );
 
+
+var styliePath = shell.test('-L', './node_modules/stylie') ?
+  './node_modules/stylie/dist' :
+  './node_modules/stylie';
+
 app.use('/stylie',
-  express.static(path.join(__dirname, 'node_modules/stylie'))
+  express.static(path.join(__dirname, styliePath))
 );
 
 app.use('/mantra',
