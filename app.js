@@ -5,7 +5,6 @@ var logger = require('morgan');
 var shell = require('shelljs');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var stylieRoutes = require('./routes/stylie');
 
 var app = express();
 
@@ -22,24 +21,31 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', stylieRoutes);
-
 app.use('/',
   express.static(path.join(__dirname, 'node_modules/rekapi'))
 );
 
+var stylieRoutes = require('./routes/stylie');
+var mantraRoutes = require('./routes/mantra');
 
-var styliePath = shell.test('-L', './node_modules/stylie') ?
-  './node_modules/stylie/dist' :
-  './node_modules/stylie';
+app.use('/', stylieRoutes);
+app.use('/', mantraRoutes);
 
-app.use('/stylie',
-  express.static(path.join(__dirname, styliePath))
-);
+[
+ 'stylie',
+ 'mantra'
+].forEach(function (appName) {
+  var appRoute = require(`./routes/${appName}`);
+  app.use('/', appRoute);
 
-app.use('/mantra',
-  express.static(path.join(__dirname, 'node_modules/mantra'))
-);
+  var appPath = shell.test('-L', `./node_modules/${appName}`) ?
+    `./node_modules/${appName}/dist` :
+    `./node_modules/${appName}`;
+
+  app.use(`/${appName}`,
+    express.static(path.join(__dirname, appPath))
+  );
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
