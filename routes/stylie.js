@@ -12,7 +12,11 @@ var stylieTemplate = fs.readFileSync(styliePath).toString();
 
 /* GET home page. */
 router.get('/stylie', function(req, res, next) {
-  res.send(Mustache.render(stylieTemplate, {}));
+  const env = JSON.stringify({});
+
+  res.send(Mustache.render(stylieTemplate, {
+    inject: `window.env = ${env};`
+  }));
 });
 
 module.exports = router;
