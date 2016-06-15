@@ -19,6 +19,7 @@
     "morgan": "~1.6.1",
     "mustache": "^2.2.1",
     "rekapi": "^1.7.1",
+    "rekapi.com": "git@github.com:jeremyckahn/rekapi.com.git#master",
     "serve-favicon": "~2.3.0",
     "shelljs": "^0.7.0",
     "stylie": "git@github.com:jeremyckahn/stylie.git#gh-pages"
