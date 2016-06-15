@@ -10,7 +10,6 @@ var styliePath = shell.test('-L', './node_modules/stylie') ?
 
 var stylieTemplate = fs.readFileSync(styliePath).toString();
 
-/* GET home page. */
 router.get('/stylie', function(req, res, next) {
   const env = JSON.stringify({});
 

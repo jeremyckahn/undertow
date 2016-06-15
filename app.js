@@ -35,9 +35,6 @@ app.use('/', mantraRoutes);
  'stylie',
  'mantra'
 ].forEach(function (appName) {
-  var appRoute = require(`./routes/${appName}`);
-  app.use('/', appRoute);
-
   var appPath = shell.test('-L', `./node_modules/${appName}`) ?
     `./node_modules/${appName}/dist` :
     `./node_modules/${appName}`;
@@ -46,6 +43,7 @@ app.use('/', mantraRoutes);
     express.static(path.join(__dirname, appPath))
   );
 });
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

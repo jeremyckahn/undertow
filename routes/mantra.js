@@ -10,7 +10,6 @@ var mantraPath = shell.test('-L', './node_modules/mantra') ?
 
 var mantraTemplate = fs.readFileSync(mantraPath).toString();
 
-/* GET home page. */
 router.get('/mantra', function(req, res, next) {
   res.send(Mustache.render(mantraTemplate, {}));
 });
