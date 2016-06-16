@@ -1,4 +1,5 @@
 var express = require('express');
+var mustacheExpress = require('mustache-express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -8,9 +9,12 @@ var bodyParser = require('body-parser');
 
 var app = express();
 
+// Register '.mustache' extension with The Mustache Express
+app.engine('mustache', mustacheExpress());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'mustache');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -25,12 +29,6 @@ app.use('/',
   express.static(path.join(__dirname, 'node_modules/rekapi.com'))
 );
 
-var stylieRoutes = require('./routes/stylie');
-var mantraRoutes = require('./routes/mantra');
-
-app.use('/', stylieRoutes);
-app.use('/', mantraRoutes);
-
 [
  'stylie',
  'mantra'
@@ -38,6 +36,8 @@ app.use('/', mantraRoutes);
   var appPath = shell.test('-L', `./node_modules/${appName}`) ?
     `./node_modules/${appName}/dist` :
     `./node_modules/${appName}`;
+
+  app.use('/', require(`./routes/${appName}`));
 
   app.use(`/${appName}`,
     express.static(path.join(__dirname, appPath))
