@@ -1,9 +1,10 @@
 var fs = require('fs');
 var express = require('express');
-var router = express.Router();
-var shell = require('shelljs');
+var router = express.Router({
+  strict: true
+});
 
-router.get('/stylie', function(req, res, next) {
+router.get('/stylie/', function(req, res, next) {
   const env = JSON.stringify({});
 
   res.render('stylie', {

@@ -1,4 +1,5 @@
 var express = require('express');
+var slash = require('express-slash');
 var mustacheExpress = require('mustache-express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -8,6 +9,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var app = express();
+app.enable('strict routing');
 
 // Register '.mustache' extension with The Mustache Express
 app.engine('mustache', mustacheExpress());
@@ -43,6 +45,8 @@ app.use('/',
     express.static(path.join(__dirname, appPath))
   );
 });
+
+app.use(slash());
 
 
 // catch 404 and forward to error handler
