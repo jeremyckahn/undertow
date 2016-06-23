@@ -7,7 +7,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "node ./bin/www",
-    "start:debug": "nodemon --watch *.js --watch routes --exec \"DEBUG=undertow:* npm start\""
+    "start:debug": "nodemon --watch *.js --watch routes --watch models --exec \"DEBUG=undertow:* npm start\"",
+    "test": "mocha --recursive",
+    "test:watch": "mocha --recursive --watch"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -25,6 +27,8 @@
     "stylie": "git@github.com:jeremyckahn/stylie.git#gh-pages"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3",
     "nodemon": "^1.9.2"
   },
   "engines": {

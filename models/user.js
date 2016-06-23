@@ -1,6 +1,10 @@
 class User {
-  constructor (userId) {
-    this.userId = userId;
+  /**
+   * @param {string} id
+   */
+  constructor (id = '') {
+    this.id = id;
+    this.isTempUser = !this.id;
   }
 }
 

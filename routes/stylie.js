@@ -7,9 +7,7 @@ var router = express.Router({
 });
 
 router.get('/stylie/', function(req, res, next) {
-  // FIXME: Hardcoded value
-  //let user = new User('test-user');
-  let user = false;
+  let user = new User();
 
   const env = JSON.stringify({
     user
