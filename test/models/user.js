@@ -22,5 +22,13 @@ describe('User model', function () {
         expect(user.isTempUser).to.equal(true);
       });
     });
+
+    describe('dataAdapter', function () {
+      it('receives and instantiates a DataAdapter', function () {
+        const DataAdapter = function () {};
+        let user = new User({ DataAdapter });
+        expect(user.dataAdapter).to.be.an.instanceof(DataAdapter);
+      });
+    });
   });
 });
