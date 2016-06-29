@@ -7,19 +7,19 @@ const MockDataAdapter = require('../utils/mock-data-adapter');
 
 describe('User model', function () {
   describe('constructor', function () {
-    it('stores id', function () {
-      let user = new User({ id: 'user-id' });
-      expect(user.id).to.equal('user-id');
+    it('stores name', function () {
+      let user = new User({ name: 'user-name' });
+      expect(user.name).to.equal('user-name');
     });
 
     describe('instance properties', function () {
       describe('isTempUser', function () {
-        it('is correct when user ID is provided', function () {
-          let user = new User({ id: 'user-id' });
+        it('is correct when user name is provided', function () {
+          let user = new User({ name: 'user-name' });
           expect(user.isTempUser).to.equal(false);
         });
 
-        it('is correct when user ID is not provided', function () {
+        it('is correct when user name is not provided', function () {
           let user = new User();
           expect(user.isTempUser).to.equal(true);
         });
@@ -40,16 +40,19 @@ describe('User model', function () {
         });
 
         describe('given valid arguments', function () {
-          it('returns a User instance', function () {
-            const promise = User.create({
+          it('returns a non-temporary User instance', function () {
+            const opts = {
               name: 'test-user'
               ,password: 'password'
               ,dataAdapter: MockDataAdapter
-            });
+            };
+            const promise = User.create(opts);
 
-            return promise.then(
-              user => expect(user).to.be.an.instanceof(User)
-            );
+            return promise.then(user => {
+              expect(user).to.be.an.instanceof(User);
+              expect(user.name).to.equal(opts.name);
+              expect(user.isTempUser).to.equal(false);
+            });
           });
         });
 
