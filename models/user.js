@@ -3,13 +3,16 @@ var BaseDataAdapter = require('../db/data-adapter');
 class User {
   /**
    * @param {string} [name]
+   * @param {string} [id]
    * @param {Function} [dataAdapter]
    */
   constructor ({
     name = '',
+    id = '',
     DataAdapter = BaseDataAdapter
   } = {}) {
     this.name = name;
+    this.id = id;
     this.isTempUser = !this.name;
     this.dataAdapter = new DataAdapter();
   }
@@ -25,7 +28,7 @@ class User {
     const dataAdapter = new options.dataAdapter();
 
     return dataAdapter.createUser(options).then(
-      res => new User({ name: res.name, dataAdapter })
+      res => new User({ name: res.name, id: res.id, dataAdapter })
     );
   }
 }

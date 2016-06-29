@@ -12,6 +12,12 @@ describe('User model', function () {
       expect(user.name).to.equal('user-name');
     });
 
+    it('stores id', function () {
+      const id = '11111';
+      let user = new User({ id });
+      expect(user.id).to.equal(id);
+    });
+
     describe('instance properties', function () {
       describe('isTempUser', function () {
         it('is correct when user name is provided', function () {
@@ -51,6 +57,7 @@ describe('User model', function () {
             return promise.then(user => {
               expect(user).to.be.an.instanceof(User);
               expect(user.name).to.equal(opts.name);
+              expect(user.id).to.equal(MockDataAdapter.tempUserId);
               expect(user.isTempUser).to.equal(false);
             });
           });

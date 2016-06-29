@@ -1,5 +1,7 @@
 const DataAdapter = require('../../db/data-adapter');
 
+const tempUserId = '12345';
+
 class MockDataAdapter extends DataAdapter {
   constructor () {
     super();
@@ -15,11 +17,13 @@ class MockDataAdapter extends DataAdapter {
     const { name, password } = options;
 
     if (name === 'test-user' && password === 'password') {
-      return Promise.resolve(options);
+      return Promise.resolve({ name, id: MockDataAdapter.tempUserId });
     }
 
     return Promise.reject(new Error());
   }
 }
+
+MockDataAdapter.tempUserId = tempUserId;
 
 module.exports = MockDataAdapter;
