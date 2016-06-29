@@ -3,6 +3,7 @@ const chai = require('chai');
 const { expect } = chai;
 
 const User = require('../../models/user');
+const MockDataAdapter = require('../utils/mock-data-adapter');
 
 describe('User model', function () {
   describe('constructor', function () {
@@ -25,9 +26,8 @@ describe('User model', function () {
 
     describe('dataAdapter', function () {
       it('receives and instantiates a DataAdapter', function () {
-        const DataAdapter = function () {};
-        let user = new User({ DataAdapter });
-        expect(user.dataAdapter).to.be.an.instanceof(DataAdapter);
+        let user = new User({ DataAdapter: MockDataAdapter });
+        expect(user.dataAdapter).to.be.an.instanceof(MockDataAdapter);
       });
     });
   });
