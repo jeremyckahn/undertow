@@ -47,7 +47,23 @@ describe('User model', function () {
               ,dataAdapter: MockDataAdapter
             });
 
-            return promise.then(user => expect(user).to.be.an.instanceof(User));
+            return promise.then(
+              user => expect(user).to.be.an.instanceof(User)
+            );
+          });
+        });
+
+        describe('given invalid arguments', function () {
+          it('returns an error', function () {
+            const promise = User.create({
+              name: 'invalid-user'
+              ,password: 'invalid-password'
+              ,dataAdapter: MockDataAdapter
+            });
+
+            return promise.catch(
+              err => expect(err).to.be.an.instanceof(Error)
+            );
           });
         });
       });

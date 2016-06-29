@@ -12,7 +12,13 @@ class MockDataAdapter extends DataAdapter {
    * @return {Promise}
    */
   createUser (options) {
-    return Promise.resolve(options);
+    const { name, password } = options;
+
+    if (name === 'test-user' && password === 'password') {
+      return Promise.resolve(options);
+    }
+
+    return Promise.reject(new Error());
   }
 }
 
