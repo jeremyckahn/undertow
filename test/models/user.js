@@ -4,6 +4,7 @@ const { expect } = chai;
 
 const User = require('../../models/user');
 const MockDataAdapter = require('../utils/mock-data-adapter');
+const { tempUserId } = MockDataAdapter;
 
 describe('User model', function () {
   describe('constructor', function () {
@@ -57,7 +58,7 @@ describe('User model', function () {
             return promise.then(user => {
               expect(user).to.be.an.instanceof(User);
               expect(user.name).to.equal(opts.name);
-              expect(user.id).to.equal(MockDataAdapter.tempUserId);
+              expect(user.id).to.equal(tempUserId);
               expect(user.isTempUser).to.equal(false);
             });
           });
