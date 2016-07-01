@@ -8,6 +8,7 @@ class MockDataAdapter extends DataAdapter {
   }
 
   /**
+   * @override
    * @param {Object} options
    * @param {string} options.name
    * @param {string} options.password
