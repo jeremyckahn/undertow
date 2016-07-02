@@ -1,4 +1,4 @@
-const { describe, it, beforeEach } = require('mocha');
+const { describe, it, beforeEach, afterEach } = require('mocha');
 const chai = require('chai');
 const { expect } = chai;
 const fs = require('fs');
@@ -9,10 +9,14 @@ const DataAdapter = require('../../../db/data-adapter');
 const SimpleJsonDataAdapter = require('../../../db/adapters/simple-json');
 
 describe('SimpleJsonDataAdapter', function () {
-  let simpleDataAdapter;
   const testDbFilePath = '/tmp/simple-json-db.json';
+  let simpleDataAdapter;
 
   beforeEach(function () {
+    if (shell.test('-e', testDbFilePath)) {
+      shell.rm(testDbFilePath);
+    }
+
     simpleDataAdapter = new SimpleJsonDataAdapter({
       dbFile: testDbFilePath
     });
@@ -32,12 +36,6 @@ describe('SimpleJsonDataAdapter', function () {
 
   describe('instance methods', function () {
     describe('writeFile', function () {
-      beforeEach(function () {
-        if (shell.test('-e', testDbFilePath)) {
-          shell.rm(testDbFilePath);
-        }
-      });
-
       it('exists', function () {
         expect(simpleDataAdapter.writeFile).to.be.a('function');
       });

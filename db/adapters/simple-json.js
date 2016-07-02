@@ -4,7 +4,7 @@ const DataAdapter = require('../data-adapter');
 class SimpleJsonDataAdapter extends DataAdapter {
   /**
    * @param {Object} options
-   * @param {string} dbFile
+   * @param {string} options.dbFile
    */
   constructor (options) {
     super();
