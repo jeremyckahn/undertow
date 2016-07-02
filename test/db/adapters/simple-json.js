@@ -10,6 +10,7 @@ const SimpleJsonDataAdapter = require('../../../db/adapters/simple-json');
 
 describe('SimpleJsonDataAdapter', function () {
   const testDbFilePath = '/tmp/simple-json-db.json';
+  const testUserData = { name: 'test-user', password: 'test-password' };
   let simpleDataAdapter;
 
   beforeEach(function () {
@@ -87,6 +88,26 @@ describe('SimpleJsonDataAdapter', function () {
       it('reads data from dbFile path', function () {
         simpleDataAdapter.readFile();
         expect(simpleDataAdapter.store).to.deep.equal(testData);
+      });
+    });
+
+    describe('createUser', function () {
+      it('exists', function () {
+        expect(simpleDataAdapter.createUser).to.be.a('function');
+      });
+
+      describe('no preexisting user data', function () {
+        beforeEach(function () {
+          simpleDataAdapter.createUser(testUserData);
+        });
+
+        it('creates a user object', function () {
+          expect(
+            simpleDataAdapter.store.users[testUserData.name]
+          ).to.deep.equal(
+            testUserData
+          );
+        });
       });
     });
   });

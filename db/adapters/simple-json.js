@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const shell = require('shelljs');
 const jsonfile = require('jsonfile');
 const DataAdapter = require('../data-adapter');
@@ -24,6 +25,14 @@ class SimpleJsonDataAdapter extends DataAdapter {
     }
   }
 
+  writeFile () {
+    jsonfile.writeFileSync(this.dbFile, this.store);
+  }
+
+  readFile () {
+    this.store = jsonfile.readFileSync(this.dbFile);
+  }
+
   /**
    * @override
    * @param {Object} options
@@ -32,14 +41,7 @@ class SimpleJsonDataAdapter extends DataAdapter {
    * @return {Promise}
    */
   createUser (options) {
-  }
-
-  writeFile () {
-    jsonfile.writeFileSync(this.dbFile, this.store);
-  }
-
-  readFile () {
-    this.store = jsonfile.readFileSync(this.dbFile);
+    _.set(this.store, `users.${options.name}`, options);
   }
 }
 
