@@ -35,6 +35,32 @@ describe('SimpleJsonDataAdapter', function () {
   });
 
   describe('instance methods', function () {
+    describe('initStore', function () {
+      const testData = { foo: 'bar' };
+
+      it('exists', function () {
+        expect(simpleDataAdapter.initStore).to.be.a('function');
+      });
+
+      describe('db file already exists', function () {
+        beforeEach(function () {
+          jsonfile.writeFileSync(testDbFilePath, testData);
+        });
+
+        it('populates store with dbFile', function () {
+          simpleDataAdapter.initStore();
+          expect(simpleDataAdapter.store).to.deep.equal(testData);
+        });
+      });
+
+      describe('db file does not already exist', function () {
+        it('populates store with empty object', function () {
+          simpleDataAdapter.initStore();
+          expect(simpleDataAdapter.store).to.deep.equal({});
+        });
+      });
+    });
+
     describe('writeFile', function () {
       it('exists', function () {
         expect(simpleDataAdapter.writeFile).to.be.a('function');

@@ -1,3 +1,4 @@
+const shell = require('shelljs');
 const jsonfile = require('jsonfile');
 const DataAdapter = require('../data-adapter');
 
@@ -12,7 +13,15 @@ class SimpleJsonDataAdapter extends DataAdapter {
     const { dbFile } = options;
 
     this.dbFile = dbFile;
-    this.store = {};
+    this.initStore();
+  }
+
+  initStore () {
+    if (shell.test('-e', this.dbFile)) {
+      this.readFile();
+    } else {
+      this.store = {};
+    }
   }
 
   /**
