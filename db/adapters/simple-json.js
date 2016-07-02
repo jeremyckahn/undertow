@@ -14,15 +14,23 @@ class SimpleJsonDataAdapter extends DataAdapter {
     const { dbFile } = options;
 
     this.dbFile = dbFile;
-    this.initStore();
   }
 
+  /**
+   * @return {Promise}
+   */
   initStore () {
+    let resolve;
+    const promise = new Promise(res => resolve = res);
+
     if (shell.test('-e', this.dbFile)) {
-      this.readFile();
+      this.readFile().then(resolve);
     } else {
       this.store = {};
+      resolve();
     }
+
+    return promise;
   }
 
   /**
@@ -32,13 +40,24 @@ class SimpleJsonDataAdapter extends DataAdapter {
     let resolve;
     const promise = new Promise(res => resolve = res);
 
-    jsonfile.writeFile(this.dbFile, this.store, () => resolve());
+    jsonfile.writeFile(this.dbFile, this.store, resolve);
 
     return promise;
   }
 
+  /**
+   * @return {Promise}
+   */
   readFile () {
-    this.store = jsonfile.readFileSync(this.dbFile);
+    let resolve;
+    const promise = new Promise(res => resolve = res);
+
+    jsonfile.readFile(this.dbFile, (err, obj) => {
+      this.store = obj;
+      resolve();
+    });
+
+    return promise;
   }
 
   /**
@@ -49,6 +68,7 @@ class SimpleJsonDataAdapter extends DataAdapter {
    * @return {Promise}
    */
   createUser (options) {
+    // TODO: Add user existence checks and error handling
     _.set(this.store, `users.${options.name}`, options);
   }
 }

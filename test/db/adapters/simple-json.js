@@ -21,6 +21,8 @@ describe('SimpleJsonDataAdapter', function () {
     simpleDataAdapter = new SimpleJsonDataAdapter({
       dbFile: testDbFilePath
     });
+
+    return simpleDataAdapter.initStore();
   });
 
   it('inherits DataAdapter', function () {
@@ -49,8 +51,9 @@ describe('SimpleJsonDataAdapter', function () {
         });
 
         it('populates store with dbFile', function () {
-          simpleDataAdapter.initStore();
-          expect(simpleDataAdapter.store).to.deep.equal(testData);
+          return simpleDataAdapter.initStore().then(_ =>
+            expect(simpleDataAdapter.store).to.deep.equal(testData)
+          );
         });
       });
 
@@ -68,7 +71,7 @@ describe('SimpleJsonDataAdapter', function () {
       });
 
       it('writes data to dbFile path', function () {
-        return simpleDataAdapter.writeFile().then(() => {
+        return simpleDataAdapter.writeFile().then(_ => {
           const fileData = JSON.parse(fs.readFileSync(testDbFilePath));
           expect(fileData).to.deep.equal({});
         });
@@ -87,8 +90,9 @@ describe('SimpleJsonDataAdapter', function () {
       });
 
       it('reads data from dbFile path', function () {
-        simpleDataAdapter.readFile();
-        expect(simpleDataAdapter.store).to.deep.equal(testData);
+        return simpleDataAdapter.readFile().then(_ =>
+          expect(simpleDataAdapter.store).to.deep.equal(testData)
+        );
       });
     });
 
