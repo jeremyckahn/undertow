@@ -25,8 +25,16 @@ class SimpleJsonDataAdapter extends DataAdapter {
     }
   }
 
+  /**
+   * @return {Promise}
+   */
   writeFile () {
-    jsonfile.writeFileSync(this.dbFile, this.store);
+    let resolve;
+    const promise = new Promise(res => resolve = res);
+
+    jsonfile.writeFile(this.dbFile, this.store, () => resolve());
+
+    return promise;
   }
 
   readFile () {

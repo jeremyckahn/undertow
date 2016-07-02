@@ -68,9 +68,10 @@ describe('SimpleJsonDataAdapter', function () {
       });
 
       it('writes data to dbFile path', function () {
-        simpleDataAdapter.writeFile();
-        const fileData = JSON.parse(fs.readFileSync(testDbFilePath));
-        expect(fileData).to.deep.equal({});
+        return simpleDataAdapter.writeFile().then(() => {
+          const fileData = JSON.parse(fs.readFileSync(testDbFilePath));
+          expect(fileData).to.deep.equal({});
+        });
       });
     });
 
