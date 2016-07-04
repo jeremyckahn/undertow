@@ -24,7 +24,7 @@ class SimpleJsonDataAdapter extends DataAdapter {
     const promise = new Promise(res => resolve = res);
 
     if (shell.test('-e', this.dbFile)) {
-      this.readFile().then(resolve);
+      this.readFromDisk().then(resolve);
     } else {
       this.store = {};
       resolve();
@@ -36,7 +36,7 @@ class SimpleJsonDataAdapter extends DataAdapter {
   /**
    * @return {Promise}
    */
-  writeFile () {
+  writeToDisk () {
     let resolve;
     const promise = new Promise(res => resolve = res);
 
@@ -48,7 +48,7 @@ class SimpleJsonDataAdapter extends DataAdapter {
   /**
    * @return {Promise}
    */
-  readFile () {
+  readFromDisk () {
     let resolve;
     const promise = new Promise(res => resolve = res);
 

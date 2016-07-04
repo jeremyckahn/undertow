@@ -65,20 +65,20 @@ describe('SimpleJsonDataAdapter', function () {
       });
     });
 
-    describe('writeFile', function () {
+    describe('writeToDisk', function () {
       it('exists', function () {
-        expect(simpleDataAdapter.writeFile).to.be.a('function');
+        expect(simpleDataAdapter.writeToDisk).to.be.a('function');
       });
 
       it('writes data to dbFile path', function () {
-        return simpleDataAdapter.writeFile().then(_ => {
+        return simpleDataAdapter.writeToDisk().then(_ => {
           const fileData = JSON.parse(fs.readFileSync(testDbFilePath));
           expect(fileData).to.deep.equal({});
         });
       });
     });
 
-    describe('readFile', function () {
+    describe('readFromDisk', function () {
       const testData = { foo: 'bar' };
 
       beforeEach(function () {
@@ -86,11 +86,11 @@ describe('SimpleJsonDataAdapter', function () {
       });
 
       it('exists', function () {
-        expect(simpleDataAdapter.readFile).to.be.a('function');
+        expect(simpleDataAdapter.readFromDisk).to.be.a('function');
       });
 
       it('reads data from dbFile path', function () {
-        return simpleDataAdapter.readFile().then(_ =>
+        return simpleDataAdapter.readFromDisk().then(_ =>
           expect(simpleDataAdapter.store).to.deep.equal(testData)
         );
       });
