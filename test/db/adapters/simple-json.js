@@ -42,7 +42,7 @@ describe('SimpleJsonDataAdapter', function () {
       const testData = { foo: 'bar' };
 
       it('exists', function () {
-        expect(simpleDataAdapter.initStore).to.be.a('function');
+        expect(simpleDataAdapter).to.respondTo('initStore');
       });
 
       describe('db file already exists', function () {
@@ -67,7 +67,7 @@ describe('SimpleJsonDataAdapter', function () {
 
     describe('writeToDisk', function () {
       it('exists', function () {
-        expect(simpleDataAdapter.writeToDisk).to.be.a('function');
+        expect(simpleDataAdapter).to.respondTo('writeToDisk');
       });
 
       it('writes data to dbFile path', function () {
@@ -86,7 +86,7 @@ describe('SimpleJsonDataAdapter', function () {
       });
 
       it('exists', function () {
-        expect(simpleDataAdapter.readFromDisk).to.be.a('function');
+        expect(simpleDataAdapter).to.respondTo('readFromDisk');
       });
 
       it('reads data from dbFile path', function () {
@@ -98,7 +98,7 @@ describe('SimpleJsonDataAdapter', function () {
 
     describe('createUser', function () {
       it('exists', function () {
-        expect(simpleDataAdapter.createUser).to.be.a('function');
+        expect(simpleDataAdapter).to.respondTo('createUser');
       });
 
       describe('no preexisting user data', function () {
