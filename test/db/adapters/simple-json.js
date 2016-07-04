@@ -114,6 +114,20 @@ describe('SimpleJsonDataAdapter', function () {
           );
         });
       });
+
+      describe('preexisting data', function () {
+        beforeEach(function () {
+          simpleDataAdapter.createUser(testUserData);
+        });
+
+        it('throws an error if user already exists', function () {
+          expect(
+            _ => simpleDataAdapter.createUser(testUserData)
+          ).to.throw(
+            Error
+          );
+        });
+      });
     });
   });
 });
