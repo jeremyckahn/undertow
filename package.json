@@ -6,10 +6,10 @@
   "author": "jeremyckahn@gmail.com",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "node ./bin/www",
-    "start:debug": "nodemon --watch *.js --watch routes --watch models --exec \"DEBUG=undertow:* npm start\"",
-    "test": "mocha --recursive",
-    "test:watch": "mocha --recursive --watch"
+    "start": "sh task.sh start",
+    "start:debug": "sh task.sh start:debug",
+    "test": "sh task.sh test",
+    "test:watch": "sh task.sh test:watch"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
