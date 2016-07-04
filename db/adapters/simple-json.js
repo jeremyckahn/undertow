@@ -78,6 +78,8 @@ class SimpleJsonDataAdapter extends DataAdapter {
     } else {
       _.set(this.store, namePath, options);
     }
+
+    return this.writeToDisk();
   }
 }
 

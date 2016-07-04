@@ -102,15 +102,13 @@ describe('SimpleJsonDataAdapter', function () {
       });
 
       describe('no preexisting user data', function () {
-        beforeEach(function () {
-          simpleDataAdapter.createUser(testUserData);
-        });
-
         it('creates a user object', function () {
-          expect(
-            simpleDataAdapter.store.users[testUserData.name]
-          ).to.deep.equal(
-            testUserData
+          simpleDataAdapter.createUser(testUserData).then(_ =>
+            expect(
+              simpleDataAdapter.store.users[testUserData.name]
+            ).to.deep.equal(
+              testUserData
+            )
           );
         });
       });
