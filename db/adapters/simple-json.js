@@ -66,18 +66,15 @@ class SimpleJsonDataAdapter extends DataAdapter {
    * @param {string} options.name
    * @param {string} options.password
    * @return {Promise}
-   * @throws {Error}
    */
   createUser (options) {
-    // TODO: Write to disk
     const namePath = `users.${options.name}`;
+
     if (_.get(this.store, namePath)) {
-      throw new Error(
-        `SimpleJsonDataAdapter#createUser: ${namePath} already exists`
-      );
-    } else {
-      _.set(this.store, namePath, options);
+      return Promise.reject(`${namePath} already exists`);
     }
+
+    _.set(this.store, namePath, options);
 
     return this.writeToDisk();
   }

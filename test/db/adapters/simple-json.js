@@ -119,10 +119,12 @@ describe('SimpleJsonDataAdapter', function () {
         });
 
         it('throws an error if user already exists', function () {
-          expect(
-            _ => simpleDataAdapter.createUser(testUserData)
-          ).to.throw(
-            Error
+          return simpleDataAdapter.createUser(testUserData).catch(error =>
+            expect(
+              error
+            ).to.equal(
+              'users.test-user already exists'
+            )
           );
         });
       });
