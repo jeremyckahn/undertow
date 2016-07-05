@@ -4,28 +4,28 @@ class User {
   /**
    * @param {string} [name]
    * @param {string} [id]
-   * @param {Function} [dataAdapter]
+   * @param {DataAdapter} [dataAdapter]
    */
   constructor ({
     name = '',
     id = '',
-    DataAdapter = BaseDataAdapter
+    dataAdapter = null
   } = {}) {
     this.name = name;
     this.id = id;
+    this.dataAdapter = dataAdapter;
     this.isTempUser = !this.name;
-    this.dataAdapter = new DataAdapter();
   }
 
   /**
    * @param {Object} options
    * @param {string} options.name
    * @param {string} options.password
-   * @param {Function} options.dataAdapter
+   * @param {DataAdapter} options.dataAdapter
    * @return {Promise}
    */
   static create (options) {
-    const dataAdapter = new options.dataAdapter();
+    const dataAdapter = options.dataAdapter;
 
     return dataAdapter.createUser(options).then(
       res => new User({ name: res.name, id: res.id, dataAdapter })

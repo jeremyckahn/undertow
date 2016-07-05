@@ -34,7 +34,7 @@ describe('User model', function () {
 
       describe('dataAdapter', function () {
         it('receives and instantiates a DataAdapter', function () {
-          let user = new User({ DataAdapter: MockDataAdapter });
+          let user = new User({ dataAdapter: new MockDataAdapter() });
           expect(user.dataAdapter).to.be.an.instanceof(MockDataAdapter);
         });
       });
@@ -51,7 +51,7 @@ describe('User model', function () {
             const opts = {
               name: 'test-user'
               ,password: 'password'
-              ,dataAdapter: MockDataAdapter
+              ,dataAdapter: new MockDataAdapter()
             };
             const promise = User.create(opts);
 
@@ -69,7 +69,7 @@ describe('User model', function () {
             const promise = User.create({
               name: 'invalid-user'
               ,password: 'invalid-password'
-              ,dataAdapter: MockDataAdapter
+              ,dataAdapter: new MockDataAdapter()
             });
 
             return promise.catch(
