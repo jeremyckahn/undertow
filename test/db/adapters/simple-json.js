@@ -90,9 +90,10 @@ describe('SimpleJsonDataAdapter', function () {
       });
 
       it('reads data from dbFile path', function () {
-        return simpleDataAdapter.readFromDisk().then(_ =>
-          expect(simpleDataAdapter.store).to.deep.equal(testData)
-        );
+        return simpleDataAdapter.readFromDisk().then(data => {
+          expect(simpleDataAdapter.store).to.deep.equal(testData);
+          expect(simpleDataAdapter.store).to.deep.equal(data);
+        });
       });
     });
 

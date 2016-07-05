@@ -54,7 +54,7 @@ class SimpleJsonDataAdapter extends DataAdapter {
 
     jsonfile.readFile(this.dbFile, (err, obj) => {
       this.store = obj;
-      resolve();
+      resolve(obj);
     });
 
     return promise;
