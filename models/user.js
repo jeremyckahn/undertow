@@ -1,4 +1,5 @@
-var BaseDataAdapter = require('../db/data-adapter');
+const _ = require('lodash');
+const BaseDataAdapter = require('../db/data-adapter');
 
 class User {
   /**
@@ -30,6 +31,14 @@ class User {
     return dataAdapter.createUser(options).then(
       res => new User({ name: res.name, id: res.id, dataAdapter })
     );
+  }
+
+  /**
+   * @overide
+   * @returns {Object}
+   */
+  toJSON () {
+    return _.pick(this, 'name', 'id', 'isTempUser');
   }
 }
 

@@ -14,7 +14,7 @@ app.enable('strict routing');
 const dataAdapter = new SimpleJsonDataAdapter({ dbFile: './.db.json' });
 
 dataAdapter.connect().then(_ => {
-  app.set('dataAdapter', dataAdapter);
+  module.exports.dataAdapter = dataAdapter;
 
   // Register '.mustache' extension with The Mustache Express
   app.engine('mustache', mustacheExpress());
