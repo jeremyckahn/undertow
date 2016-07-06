@@ -1,10 +1,10 @@
-var fs = require('fs');
-var express = require('express');
-var router = express.Router({
+const fs = require('fs');
+const express = require('express');
+const router = express.Router({
   strict: true
 });
 
-router.get('/mantra/', function(req, res, next) {
+router.get('/mantra/', (req, res, next) => {
   const env = JSON.stringify({});
 
   res.render('mantra', {
