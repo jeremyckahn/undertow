@@ -79,5 +79,30 @@ describe('User model', function () {
         });
       });
     });
+
+    describe('instance methods', function () {
+      describe('toJSON', function () {
+        let user;
+        beforeEach(function () {
+          user = new User({
+            name: 'invalid-user'
+            ,id: '22222'
+            ,dataAdapter: new MockDataAdapter()
+          });
+        });
+
+        it('exists', function () {
+          expect(user).to.respondTo('toJSON');
+        });
+
+        it('contains expected properties', function () {
+          expect(user.toJSON()).to.deep.equal({
+            name: 'invalid-user'
+            ,id: '22222'
+            ,isTempUser: false
+          });
+        });
+      });
+    });
   });
 });
