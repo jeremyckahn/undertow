@@ -1,0 +1,8 @@
+{
+  "users": {
+    "test-user": {
+      "name": "test-user",
+      "password": "test-password"
+    }
+  }
+}
