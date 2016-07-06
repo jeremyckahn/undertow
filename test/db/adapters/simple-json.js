@@ -22,7 +22,7 @@ describe('SimpleJsonDataAdapter', function () {
       dbFile: testDbFilePath
     });
 
-    return simpleDataAdapter.initStore();
+    return simpleDataAdapter.connect();
   });
 
   it('inherits DataAdapter', function () {
@@ -38,11 +38,11 @@ describe('SimpleJsonDataAdapter', function () {
   });
 
   describe('instance methods', function () {
-    describe('initStore', function () {
+    describe('connect', function () {
       const testData = { foo: 'bar' };
 
       it('exists', function () {
-        expect(simpleDataAdapter).to.respondTo('initStore');
+        expect(simpleDataAdapter).to.respondTo('connect');
       });
 
       describe('db file already exists', function () {
@@ -51,7 +51,7 @@ describe('SimpleJsonDataAdapter', function () {
         });
 
         it('populates store with dbFile', function () {
-          return simpleDataAdapter.initStore().then(_ =>
+          return simpleDataAdapter.connect().then(_ =>
             expect(simpleDataAdapter.store).to.deep.equal(testData)
           );
         });
@@ -59,8 +59,9 @@ describe('SimpleJsonDataAdapter', function () {
 
       describe('db file does not already exist', function () {
         it('populates store with empty object', function () {
-          simpleDataAdapter.initStore();
-          expect(simpleDataAdapter.store).to.deep.equal({});
+          simpleDataAdapter.connect().then(
+            _ => expect(simpleDataAdapter.store).to.deep.equal({})
+          );
         });
       });
     });
