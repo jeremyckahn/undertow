@@ -14,41 +14,40 @@ app.enable('strict routing');
 const dataAdapter = new SimpleJsonDataAdapter({ dbFile: './.db.json' });
 
 dataAdapter.connect().then(_ => {
-  module.exports.dataAdapter = dataAdapter;
 
   // Register '.mustache' extension with The Mustache Express
   app.engine('mustache', mustacheExpress());
 
   // view engine setup
-  app.set('views', path.join(__dirname, 'views'));
-  app.set('view engine', 'mustache');
+  app
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'mustache');
 
   // uncomment after placing your favicon in /public
   //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-  app.use(logger('dev'));
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(cookieParser());
+  app.use(logger('dev'))
+    .use(bodyParser.json())
+    .use(bodyParser.urlencoded({ extended: false }))
+    .use(cookieParser());
 
-  app.use(express.static(path.join(__dirname, 'public')));
+  app
+    .use(express.static(
+      path.join(__dirname, 'public')
+    ))
+    .use('/', express.static(
+      path.join(__dirname, 'node_modules/rekapi.com')
+    ));
 
-  app.use('/',
-    express.static(path.join(__dirname, 'node_modules/rekapi.com'))
-  );
-
-  [
-   'stylie',
-   'mantra'
-  ].forEach(appName => {
+  ['stylie', 'mantra'].forEach(appName => {
     const appPath = shell.test('-L', `./node_modules/${appName}`) ?
       `./node_modules/${appName}/dist` :
       `./node_modules/${appName}`;
 
-    app.use('/', require(`./routes/${appName}`));
-
-    app.use(`/${appName}`,
-      express.static(path.join(__dirname, appPath))
-    );
+    app
+      .use('/', require(`./routes/${appName}`))
+      .use(`/${appName}`,
+        express.static(path.join(__dirname, appPath))
+      );
   });
 
   app.use(slash());
@@ -86,3 +85,4 @@ dataAdapter.connect().then(_ => {
 });
 
 module.exports = app;
+module.exports.dataAdapter = dataAdapter;
