@@ -4,13 +4,19 @@ const { expect } = chai;
 const fs = require('fs');
 const jsonfile = require('jsonfile');
 const shell = require('shelljs');
+const objectHash = require('object-hash');
 
 const DataAdapter = require('../../../db/data-adapter');
 const SimpleJsonDataAdapter = require('../../../db/adapters/simple-json');
 
+const testDbFilePath = '/tmp/simple-json-db.json';
+const testUserData = { name: 'test-user', password: 'test-password' };
+const testUserDataWithId = Object.assign({},
+  testUserData,
+  { id: objectHash(testUserData.name) }
+);
+
 describe('SimpleJsonDataAdapter', function () {
-  const testDbFilePath = '/tmp/simple-json-db.json';
-  const testUserData = { name: 'test-user', password: 'test-password' };
   let simpleDataAdapter;
 
   beforeEach(function () {
@@ -105,11 +111,11 @@ describe('SimpleJsonDataAdapter', function () {
 
       describe('no preexisting user data', function () {
         it('creates a user object', function () {
-          simpleDataAdapter.createUser(testUserData).then(_ =>
+          return simpleDataAdapter.createUser(testUserData).then(_ =>
             expect(
               simpleDataAdapter.store.users[testUserData.name]
             ).to.deep.equal(
-              testUserData
+              testUserDataWithId
             )
           );
         });

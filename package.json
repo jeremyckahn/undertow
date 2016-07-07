@@ -22,6 +22,7 @@
     "mantra": "git@github.com:jeremyckahn/mantra.git#gh-pages",
     "morgan": "~1.6.1",
     "mustache-express": "^1.2.2",
+    "object-hash": "^1.1.2",
     "rekapi": "^1.7.1",
     "rekapi.com": "git@github.com:jeremyckahn/rekapi.com.git#master",
     "serve-favicon": "~2.3.0",

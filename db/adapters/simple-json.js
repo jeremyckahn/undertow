@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const shell = require('shelljs');
 const jsonfile = require('jsonfile');
+const objectHash = require('object-hash');
 const DataAdapter = require('../data-adapter');
 
 class SimpleJsonDataAdapter extends DataAdapter {
@@ -68,13 +69,16 @@ class SimpleJsonDataAdapter extends DataAdapter {
    * @return {Promise}
    */
   createUser (options) {
-    const namePath = `users.${options.name}`;
+    const userData = Object.assign({}, options);
+    const { name } = userData;
+    userData.id = objectHash(name);
+    const namePath = `users.${name}`;
 
     if (_.get(this.store, namePath)) {
       return Promise.reject(`${namePath} already exists`);
     }
 
-    _.set(this.store, namePath, options);
+    _.set(this.store, namePath, userData);
 
     return this.writeToDisk();
   }
