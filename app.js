@@ -50,6 +50,10 @@ dataAdapter.connect().then(_ => {
       );
   });
 
+  ['user'].forEach(endpoint => {
+    app.use('/api/', require(`./api/${endpoint}`));
+  });
+
   app.use(slash());
 
   // catch 404 and forward to error handler
