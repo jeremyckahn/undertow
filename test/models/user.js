@@ -46,31 +46,43 @@ describe('User model', function () {
           expect(User.create).to.be.a('function');
         });
 
-        describe('given valid arguments', function () {
-          it('returns a non-temporary User instance', function () {
-            const opts = {
-              name: 'test-user'
-              ,password: 'password'
-              ,dataAdapter: new MockDataAdapter()
-            };
-            const promise = User.create(opts);
+        describe('sufficient arguments', function () {
+          describe('given valid arguments', function () {
+            it('returns a non-temporary User instance', function () {
+              const opts = {
+                name: 'test-user'
+                ,password: 'password'
+                ,dataAdapter: new MockDataAdapter()
+              };
+              const promise = User.create(opts);
 
-            return promise.then(user => {
-              expect(user).to.be.an.instanceof(User);
-              expect(user.name).to.equal(opts.name);
-              expect(user.id).to.equal(tempUserId);
-              expect(user.isTempUser).to.equal(false);
+              return promise.then(user => {
+                expect(user).to.be.an.instanceof(User);
+                expect(user.name).to.equal(opts.name);
+                expect(user.id).to.equal(tempUserId);
+                expect(user.isTempUser).to.equal(false);
+              });
+            });
+          });
+
+          describe('given invalid arguments', function () {
+            it('returns an error', function () {
+              const promise = User.create({
+                name: 1
+                ,password: 2
+                ,dataAdapter: new MockDataAdapter()
+              });
+
+              return promise.catch(
+                err => expect(err).to.be.an.instanceof(Error)
+              );
             });
           });
         });
 
-        describe('given invalid arguments', function () {
+        describe('insufficient arguments', function () {
           it('returns an error', function () {
-            const promise = User.create({
-              name: 'invalid-user'
-              ,password: 'invalid-password'
-              ,dataAdapter: new MockDataAdapter()
-            });
+            const promise = User.create({name: 3});
 
             return promise.catch(
               err => expect(err).to.be.an.instanceof(Error)

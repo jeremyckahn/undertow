@@ -20,8 +20,6 @@ class MockDataAdapter extends DataAdapter {
     if (name === 'test-user' && password === 'password') {
       return Promise.resolve({ name, id: MockDataAdapter.tempUserId });
     }
-
-    return Promise.reject(new Error());
   }
 }
 
