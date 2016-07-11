@@ -2,7 +2,7 @@ const _ = require('lodash');
 const tcomb = require('tcomb');
 const BaseDataAdapter = require('../db/data-adapter');
 
-const userShape = tcomb.interface({
+const UserShape = tcomb.interface({
   name: tcomb.String,
   password: tcomb.String,
   dataAdapter: tcomb.irreducible('DataAdapter',
@@ -38,11 +38,8 @@ class User {
    * @return {Promise}
    */
   static create (options) {
-    // TODO: Switch to an if from a try/catch
-    try {
-      userShape(options);
-    } catch (e) {
-      return Promise.reject(new Error(e));
+    if (!UserShape.is(options)) {
+      return Promise.reject(new Error());
     }
 
     const dataAdapter = options.dataAdapter;
