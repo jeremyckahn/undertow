@@ -9,6 +9,7 @@ const { dataAdapter } = app;
 
 function createUser(req, res, next) {
   const { name, password } = req.body;
+
   User.create({ name, password, dataAdapter })
     .then(u => res.send(u))
     .catch(e => res.send(e));
