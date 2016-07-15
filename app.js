@@ -11,9 +11,13 @@ const SimpleJsonDataAdapter = require('./db/adapters/simple-json');
 
 const app = express();
 app.enable('strict routing');
-const dataAdapter = new SimpleJsonDataAdapter({ dbFile: './.db.json' });
 
-app.start = function () {
+/**
+ * @param {DataAdapter} dataAdapter
+ */
+app.start = function (dataAdapter) {
+  app.dataAdapter = dataAdapter;
+
   // Register '.mustache' extension with The Mustache Express
   app.engine('mustache', mustacheExpress());
 
@@ -87,7 +91,4 @@ app.start = function () {
   });
 };
 
-dataAdapter.connect().then(app.start);
-
 module.exports = app;
-module.exports.dataAdapter = dataAdapter;
