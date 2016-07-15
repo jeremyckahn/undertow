@@ -7,6 +7,10 @@ class MockDataAdapter extends DataAdapter {
     super();
   }
 
+  connect () {
+    return Promise.resolve();
+  }
+
   /**
    * @override
    * @param {Object} options
