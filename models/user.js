@@ -44,9 +44,12 @@ class User {
 
     const dataAdapter = options.dataAdapter;
 
-    return dataAdapter.createUser(options).then(
-      res => new User({ name: res.name, id: res.id, dataAdapter })
-    );
+    return dataAdapter.createUser(options)
+      .then(
+        res => new User({ name: res.name, id: res.id, dataAdapter })
+      ).catch(
+        err => Promise.reject(err)
+      );
   }
 
   /**

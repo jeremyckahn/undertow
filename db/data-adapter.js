@@ -9,4 +9,13 @@ class DataAdapter {
   createUser () {}
 }
 
+Object.assign(DataAdapter, {
+  USER_EXISTS: 'user exists',
+
+  reject: {
+    userExists:
+      _ => Promise.reject({ errorMessage: DataAdapter.USER_EXISTS })
+  }
+});
+
 module.exports = DataAdapter;
