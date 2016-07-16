@@ -39,7 +39,7 @@ class User {
    */
   static create (options) {
     if (!UserShape.is(options)) {
-      return Promise.reject(new Error());
+      return User.reject.insufficientArguments();
     }
 
     const dataAdapter = options.dataAdapter;
@@ -60,5 +60,14 @@ class User {
     return _.pick(this, 'name', 'id', 'isTempUser');
   }
 }
+
+Object.assign(User, {
+  INSUFFICIENT_ARGUMENTS: 'insufficient arguments',
+
+  reject: {
+    insufficientArguments: _ =>
+      Promise.reject({ errorMessage: User.INSUFFICIENT_ARGUMENTS })
+  }
+});
 
 module.exports = User;

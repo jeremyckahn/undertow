@@ -92,7 +92,10 @@ describe('User model', function () {
               });
 
               return promise.catch(
-                err => expect(err).to.be.an.instanceof(Error)
+                err => expect(err)
+                  .to.deep.equal({
+                    errorMessage: User.INSUFFICIENT_ARGUMENTS
+                  })
               );
             });
           });
@@ -103,7 +106,10 @@ describe('User model', function () {
             const promise = User.create({ name: 'some-user' });
 
             return promise.catch(
-              err => expect(err).to.be.an.instanceof(Error)
+              err => expect(err)
+                .to.deep.equal({
+                  errorMessage: User.INSUFFICIENT_ARGUMENTS
+                })
             );
           });
         });
