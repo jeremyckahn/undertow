@@ -1,13 +1,22 @@
 const { describe, it, before, beforeEach } = require('mocha');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const _ = require('lodash');
 const app = require('../../app');
 const MockDataAdapter = require('../utils/mock-data-adapter');
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
+const testUserProps = {
+  name: 'test-user',
+  password: 'password'
+};
+
 describe('/api', function () {
+  const { name, password } = testUserProps;
+  const id = MockDataAdapter.tempUserId;
+
   before(function () {
     const dataAdapter = new MockDataAdapter();
     return dataAdapter.connect().then(_ => app.start(dataAdapter));
@@ -20,6 +29,24 @@ describe('/api', function () {
           .post('/api/user/create')
           .then(res =>
             expect(res).to.have.status(200)
+          )
+      );
+
+      it('returns user data upon success', () =>
+        chai.request(app)
+          .post('/api/user/create')
+          .send({ name, password })
+          .then(res =>
+            expect(res)
+              .to.have.status(200)
+              .and
+              .to.have.deep.property('body')
+                .that
+                .deep.equals({
+                  isTempUser: false,
+                  id,
+                  name
+                })
           )
       );
     });
