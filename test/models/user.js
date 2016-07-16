@@ -3,6 +3,7 @@ const chai = require('chai');
 const { expect } = chai;
 
 const User = require('../../models/user');
+const DataAdapter = require('../../db/data-adapter');
 const MockDataAdapter = require('../utils/mock-data-adapter');
 const { tempUserId } = MockDataAdapter;
 
@@ -50,9 +51,9 @@ describe('User model', function () {
           describe('given valid arguments', function () {
             it('returns a non-temporary User instance', function () {
               const opts = {
-                name: 'test-user'
-                ,password: 'password'
-                ,dataAdapter: new MockDataAdapter()
+                name: 'test-user',
+                password: 'password',
+                dataAdapter: new MockDataAdapter()
               };
               const promise = User.create(opts);
 
@@ -65,12 +66,29 @@ describe('User model', function () {
             });
           });
 
+          describe('user exists', function () {
+            it('returns an error object', function () {
+              const promise = User.create({
+                name: 'existing-user',
+                password: '_',
+                dataAdapter: new MockDataAdapter()
+              });
+
+              return promise.catch(
+                err => expect(err)
+                  .to.deep.equal({
+                    errorMessage: DataAdapter.USER_EXISTS
+                  })
+              );
+            });
+          });
+
           describe('given invalid arguments', function () {
             it('returns an error', function () {
               const promise = User.create({
-                name: 1
-                ,password: 2
-                ,dataAdapter: new MockDataAdapter()
+                name: 1,
+                password: 2,
+                dataAdapter: new MockDataAdapter()
               });
 
               return promise.catch(
@@ -109,9 +127,9 @@ describe('User model', function () {
 
         it('contains expected properties', function () {
           expect(user.toJSON()).to.deep.equal({
-            name: 'invalid-user'
-            ,id: '22222'
-            ,isTempUser: false
+            name: 'invalid-user',
+            id: '22222',
+            isTempUser: false
           });
         });
       });
