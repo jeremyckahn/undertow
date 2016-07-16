@@ -82,7 +82,7 @@ describe('User model', function () {
 
         describe('insufficient arguments', function () {
           it('returns an error', function () {
-            const promise = User.create({name: 3});
+            const promise = User.create({ name: 'some-user' });
 
             return promise.catch(
               err => expect(err).to.be.an.instanceof(Error)
