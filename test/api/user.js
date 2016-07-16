@@ -15,14 +15,13 @@ describe('/api', function () {
 
   describe('/user', function () {
     describe('/create', function () {
-      it('responds', function (done) {
+      it('responds', () =>
         chai.request(app)
           .post('/api/user/create')
-          .end(function (err, res) {
-            expect(res).to.have.status(200);
-            done();
-          });
-      });
+          .then(res =>
+            expect(res).to.have.status(200)
+          )
+      );
     });
   });
 });
