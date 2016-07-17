@@ -69,7 +69,7 @@ describe('User model', function () {
           describe('user exists', function () {
             it('returns an error object', function () {
               const promise = User.create({
-                name: 'existing-user',
+                name: MockDataAdapter.existingUserName,
                 password: '_',
                 dataAdapter: new MockDataAdapter()
               });
@@ -110,6 +110,64 @@ describe('User model', function () {
                 .to.deep.equal({
                   errorMessage: User.INSUFFICIENT_ARGUMENTS
                 })
+            );
+          });
+        });
+      });
+
+      describe('doesExist', function () {
+        it('exists', function () {
+          expect(User).itself.to.respondTo('doesExist');
+        });
+
+        describe('lookup by name', function () {
+          describe('user exists', function () {
+            it('returns correct result', () =>
+              User.doesExist({
+                dataAdapter: new MockDataAdapter(),
+                name: MockDataAdapter.existingUserName
+              })
+              .then(
+                doesUserExist => expect(doesUserExist).to.equal(true)
+              )
+            );
+          });
+
+          describe('user does not exist', function () {
+            it('returns correct result', () =>
+              User.doesExist({
+                dataAdapter: new MockDataAdapter(),
+                name: 'non-existing-user'
+              })
+              .then(
+                doesUserExist => expect(doesUserExist).to.equal(false)
+              )
+            );
+          });
+        });
+
+        describe('lookup by id', function () {
+          describe('user exists', function () {
+            it('returns correct result', () =>
+              User.doesExist({
+                dataAdapter: new MockDataAdapter(),
+                id: MockDataAdapter.existingUserId
+              })
+              .then(
+                doesUserExist => expect(doesUserExist).to.equal(true)
+              )
+            );
+          });
+
+          describe('user does not exist', function () {
+            it('returns correct result', () =>
+              User.doesExist({
+                dataAdapter: new MockDataAdapter(),
+                id: '000000'
+              })
+              .then(
+                doesUserExist => expect(doesUserExist).to.equal(false)
+              )
             );
           });
         });
