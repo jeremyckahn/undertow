@@ -23,6 +23,10 @@ case "$COMMAND" in
     mocha --recursive
   ;;
 
+  test:debug )
+    mocha debug
+  ;;
+
   test:watch )
     mocha --recursive --watch
   ;;

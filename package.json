@@ -9,6 +9,7 @@
     "start": "sh task.sh start",
     "start:debug": "sh task.sh start:debug",
     "test": "sh task.sh test",
+    "test:debug": "sh task.sh test:debug",
     "test:watch": "sh task.sh test:watch",
     "use-data:basic": "sh task.sh use-data:basic"
   },
