@@ -2,20 +2,20 @@ class DataAdapter {
   /**
    * @abstract
    * @param {Object} options
-   * @param {string} options.name
-   * @param {string} options.password
-   * @return {Promise}
-   */
-  createUser () {}
-
-  /**
-   * @abstract
-   * @param {Object} options
    * @param {string} [options.id]
    * @param {string} [options.name]
    * @return {Promise}
    */
   doesUserExist () {}
+
+  /**
+   * @abstract
+   * @param {Object} options
+   * @param {string} options.name
+   * @param {string} options.password
+   * @return {Promise}
+   */
+  createUser () {}
 }
 
 Object.assign(DataAdapter, {

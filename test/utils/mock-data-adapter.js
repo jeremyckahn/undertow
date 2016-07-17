@@ -17,6 +17,21 @@ class MockDataAdapter extends DataAdapter {
   /**
    * @override
    * @param {Object} options
+   * @param {string} [options.id]
+   * @param {string} [options.name]
+   * @return {Promise}
+   */
+  doesUserExist (options) {
+    const { id, name } = options;
+
+    return Promise.resolve(
+      name === existingUserName || id === existingUserId
+    );
+  }
+
+  /**
+   * @override
+   * @param {Object} options
    * @param {string} options.name
    * @param {string} options.password
    * @return {Promise}
@@ -31,21 +46,6 @@ class MockDataAdapter extends DataAdapter {
     if (name === existingUserName) {
       return DataAdapter.reject.userExists();
     }
-  }
-
-  /**
-   * @override
-   * @param {Object} options
-   * @param {string} [options.id]
-   * @param {string} [options.name]
-   * @return {Promise}
-   */
-  doesUserExist (options) {
-    const { id, name } = options;
-
-    return Promise.resolve(
-      name === existingUserName || id === existingUserId
-    );
   }
 }
 
