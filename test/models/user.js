@@ -43,8 +43,8 @@ describe('User model', function () {
 
     describe('static methods', function () {
       describe('create', function () {
-        it('is a function', function () {
-          expect(User.create).to.be.a('function');
+        it('exists', function () {
+          expect(User).itself.to.respondTo('create');
         });
 
         describe('sufficient arguments', function () {
