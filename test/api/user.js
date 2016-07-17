@@ -67,5 +67,91 @@ describe('/api', function () {
           )
       );
     });
+
+    describe('/does-exist', function () {
+      it('responds', () =>
+        chai.request(app)
+          .post('/api/user/does-exist')
+          .then(res =>
+            expect(res).to.have.status(200)
+          )
+      );
+
+      describe('lookup by name', function () {
+        describe('user exists', function () {
+          it('returns correct result', () =>
+            chai.request(app)
+              .post('/api/user/does-exist')
+              .send({ name: MockDataAdapter.existingUserName })
+              .then(res =>
+                expect(res)
+                  .to.have.status(200)
+                  .and
+                  .to.have.deep.property('body')
+                    .that
+                    .deep.equals({
+                      doesExist: true
+                    })
+              )
+          );
+        });
+
+        describe('user does not exist', function () {
+          it('returns correct result', () =>
+            chai.request(app)
+              .post('/api/user/does-exist')
+              .send({ name: 'non-existing-user' })
+              .then(res =>
+                expect(res)
+                  .to.have.status(200)
+                  .and
+                  .to.have.deep.property('body')
+                    .that
+                    .deep.equals({
+                      doesExist: false
+                    })
+              )
+          );
+        });
+      });
+
+      describe('lookup by id', function () {
+        describe('user exists', function () {
+          it('returns correct result', () =>
+            chai.request(app)
+              .post('/api/user/does-exist')
+              .send({ id: MockDataAdapter.existingUserId })
+              .then(res =>
+                expect(res)
+                  .to.have.status(200)
+                  .and
+                  .to.have.deep.property('body')
+                    .that
+                    .deep.equals({
+                      doesExist: true
+                    })
+              )
+          );
+        });
+
+        describe('user does not exist', function () {
+          it('returns correct result', () =>
+            chai.request(app)
+              .post('/api/user/does-exist')
+              .send({ id: '00000' })
+              .then(res =>
+                expect(res)
+                  .to.have.status(200)
+                  .and
+                  .to.have.deep.property('body')
+                    .that
+                    .deep.equals({
+                      doesExist: false
+                    })
+              )
+          );
+        });
+      });
+    });
   });
 });
