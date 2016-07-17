@@ -137,7 +137,7 @@ describe('User model', function () {
             it('returns correct result', () =>
               User.doesExist({
                 dataAdapter: new MockDataAdapter(),
-                name: 'non-existing-user'
+                name: MockDataAdapter.nonExistingUserName
               })
               .then(
                 doesUserExist => expect(doesUserExist).to.equal(false)
@@ -163,7 +163,7 @@ describe('User model', function () {
             it('returns correct result', () =>
               User.doesExist({
                 dataAdapter: new MockDataAdapter(),
-                id: '000000'
+                id: MockDataAdapter.nonExistingUserId
               })
               .then(
                 doesUserExist => expect(doesUserExist).to.equal(false)

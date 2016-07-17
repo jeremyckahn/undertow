@@ -4,6 +4,8 @@ const tempUserId = '12345';
 
 const existingUserName = 'existing-user';
 const existingUserId = '23456';
+const nonExistingUserName = 'non-existing-user';
+const nonExistingUserId = '00000';
 
 class MockDataAdapter extends DataAdapter {
   constructor () {
@@ -52,5 +54,7 @@ class MockDataAdapter extends DataAdapter {
 MockDataAdapter.tempUserId = tempUserId;
 MockDataAdapter.existingUserName = existingUserName;
 MockDataAdapter.existingUserId = existingUserId;
+MockDataAdapter.nonExistingUserName = nonExistingUserName;
+MockDataAdapter.nonExistingUserId = nonExistingUserId;
 
 module.exports = MockDataAdapter;

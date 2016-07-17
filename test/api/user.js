@@ -100,7 +100,7 @@ describe('/api', function () {
           it('returns correct result', () =>
             chai.request(app)
               .post('/api/user/does-exist')
-              .send({ name: 'non-existing-user' })
+              .send({ name: MockDataAdapter.nonExistingUserName })
               .then(res =>
                 expect(res)
                   .to.have.status(200)
@@ -138,7 +138,7 @@ describe('/api', function () {
           it('returns correct result', () =>
             chai.request(app)
               .post('/api/user/does-exist')
-              .send({ id: '00000' })
+              .send({ id: MockDataAdapter.nonExistingUserId })
               .then(res =>
                 expect(res)
                   .to.have.status(200)
