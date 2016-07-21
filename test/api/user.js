@@ -23,6 +23,17 @@ describe('/api', function () {
     return dataAdapter.connect().then(_ => app.start(dataAdapter));
   });
 
+  describe('calls to nonexistent methods', function () {
+    it('returns a 404', function (done) {
+      chai.request(app)
+        .post('/api/user/some-nonexistent-endpoint')
+        .end(res => {
+          expect(res).to.have.status(404);
+          done();
+        });
+    });
+  });
+
   describe('/user', function () {
     describe('/create', function () {
       it('responds', () =>

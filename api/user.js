@@ -27,17 +27,22 @@ function login (req, res, next) {
   res.send({ errorMessage: 'invalid credentials' });
 }
 
+const handlerMap = {
+  create: createUser,
+  'does-exist': doesUserExist,
+  login: login
+};
+
 router.post('/user/:method', function (req, res, next) {
   const { method } = req.params;
 
-  switch (method) {
-    case 'create':
-      return createUser(...arguments);
-    case 'does-exist':
-      return doesUserExist(...arguments);
-    case 'login':
-      return login(...arguments);
-  }
+  const handler = handlerMap[method];
+
+  return handler?
+    handler(...arguments)
+    :
+    res.status(404).send()
+  ;
 });
 
 module.exports = router;
