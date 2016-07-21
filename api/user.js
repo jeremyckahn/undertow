@@ -23,6 +23,10 @@ function doesUserExist (req, res, next) {
     .catch(e => res.send(e));
 }
 
+function login (req, res, next) {
+  res.send({ errorMessage: 'invalid credentials' });
+}
+
 router.post('/user/:method', function (req, res, next) {
   const { method } = req.params;
 
@@ -31,6 +35,8 @@ router.post('/user/:method', function (req, res, next) {
       return createUser(...arguments);
     case 'does-exist':
       return doesUserExist(...arguments);
+    case 'login':
+      return login(...arguments);
   }
 });
 

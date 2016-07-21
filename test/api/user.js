@@ -153,5 +153,33 @@ describe('/api', function () {
         });
       });
     });
+
+    describe('/login', function () {
+      it('responds', () =>
+        chai.request(app)
+          .post('/api/user/login')
+          .then(res =>
+            expect(res).to.have.status(200)
+          )
+      );
+
+      describe('invalid credentials', function () {
+        it('returns error object', () =>
+          chai.request(app)
+            .post('/api/user/login')
+            .send({})
+            .then(res =>
+              expect(res)
+                .to.have.status(200)
+                .and
+                .to.have.deep.property('body')
+                  .that
+                  .deep.equals({
+                    errorMessage: 'invalid credentials'
+                  })
+            )
+        );
+      });
+    });
   });
 });
