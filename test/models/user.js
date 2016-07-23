@@ -5,9 +5,24 @@ const { expect } = chai;
 const User = require('../../models/user');
 const DataAdapter = require('../../db/data-adapter');
 const MockDataAdapter = require('../utils/mock-data-adapter');
-const { tempUserId } = MockDataAdapter;
+
+const {
+  tempUserId,
+    newUserName,
+    newUserPassword,
+    existingUserName,
+    existingUserPassword,
+    existingUserId,
+    nonExistingUserName,
+    nonExistingUserId
+} = MockDataAdapter;
 
 describe('User model', function () {
+  let dataAdapter;
+  beforeEach(function () {
+    dataAdapter = new MockDataAdapter();
+  });
+
   describe('constructor', function () {
     it('stores name', function () {
       let user = new User({ name: 'user-name' });
@@ -35,7 +50,7 @@ describe('User model', function () {
 
       describe('dataAdapter', function () {
         it('receives and instantiates a DataAdapter', function () {
-          let user = new User({ dataAdapter: new MockDataAdapter() });
+          let user = new User({ dataAdapter });
           expect(user.dataAdapter).to.be.an.instanceof(MockDataAdapter);
         });
       });
@@ -51,9 +66,9 @@ describe('User model', function () {
           describe('given valid arguments', function () {
             it('returns a non-temporary User instance', function () {
               const opts = {
-                name: MockDataAdapter.newUserName,
-                password: MockDataAdapter.newUserPassword,
-                dataAdapter: new MockDataAdapter()
+                name: newUserName,
+                password: newUserPassword,
+                dataAdapter
               };
               const promise = User.create(opts);
 
@@ -69,9 +84,9 @@ describe('User model', function () {
           describe('user exists', function () {
             it('returns an error object', function () {
               const promise = User.create({
-                name: MockDataAdapter.existingUserName,
+                name: existingUserName,
                 password: '_',
-                dataAdapter: new MockDataAdapter()
+                dataAdapter
               });
 
               return promise.catch(
@@ -88,7 +103,7 @@ describe('User model', function () {
               const promise = User.create({
                 name: 1,
                 password: 2,
-                dataAdapter: new MockDataAdapter()
+                dataAdapter
               });
 
               return promise.catch(
@@ -124,8 +139,8 @@ describe('User model', function () {
           describe('user exists', function () {
             it('returns correct result', () =>
               User.doesExist({
-                dataAdapter: new MockDataAdapter(),
-                name: MockDataAdapter.existingUserName
+                dataAdapter,
+                name: existingUserName
               })
               .then(
                 doesUserExist => expect(doesUserExist).to.equal(true)
@@ -136,8 +151,8 @@ describe('User model', function () {
           describe('user does not exist', function () {
             it('returns correct result', () =>
               User.doesExist({
-                dataAdapter: new MockDataAdapter(),
-                name: MockDataAdapter.nonExistingUserName
+                dataAdapter,
+                name: nonExistingUserName
               })
               .then(
                 doesUserExist => expect(doesUserExist).to.equal(false)
@@ -150,8 +165,8 @@ describe('User model', function () {
           describe('user exists', function () {
             it('returns correct result', () =>
               User.doesExist({
-                dataAdapter: new MockDataAdapter(),
-                id: MockDataAdapter.existingUserId
+                dataAdapter,
+                id: existingUserId
               })
               .then(
                 doesUserExist => expect(doesUserExist).to.equal(true)
@@ -162,8 +177,8 @@ describe('User model', function () {
           describe('user does not exist', function () {
             it('returns correct result', () =>
               User.doesExist({
-                dataAdapter: new MockDataAdapter(),
-                id: MockDataAdapter.nonExistingUserId
+                dataAdapter,
+                id: nonExistingUserId
               })
               .then(
                 doesUserExist => expect(doesUserExist).to.equal(false)
@@ -182,9 +197,9 @@ describe('User model', function () {
           describe('given valid credentials', function () {
             it('returns user object', function () {
               const opts = {
-                name: MockDataAdapter.existingUserName,
-                password: MockDataAdapter.existingUserPassword,
-                dataAdapter: new MockDataAdapter()
+                name: existingUserName,
+                password: existingUserPassword,
+                dataAdapter
               };
 
               const promise = User.fetch(opts);
@@ -192,7 +207,7 @@ describe('User model', function () {
               return promise.then(user => {
                 expect(user).to.be.an.instanceof(User);
                 expect(user.name).to.equal(opts.name);
-                expect(user.id).to.equal(MockDataAdapter.existingUserId);
+                expect(user.id).to.equal(existingUserId);
                 expect(user.isTempUser).to.equal(false);
               });
             });
@@ -201,9 +216,9 @@ describe('User model', function () {
           describe('given invalid credentials', function () {
             it('returns an error object', function () {
               const promise = User.fetch({
-                name: MockDataAdapter.existingUserName,
+                name: existingUserName,
                 password: '_',
-                dataAdapter: new MockDataAdapter()
+                dataAdapter
               });
 
               return promise.catch(
@@ -221,7 +236,7 @@ describe('User model', function () {
             const promise = User.fetch({
               name: 1,
               password: 2,
-              dataAdapter: new MockDataAdapter()
+              dataAdapter
             });
 
             return promise.catch(
@@ -255,7 +270,7 @@ describe('User model', function () {
           user = new User({
             name: 'invalid-user'
             ,id: '22222'
-            ,dataAdapter: new MockDataAdapter()
+            ,dataAdapter
           });
         });
 
