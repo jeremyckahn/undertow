@@ -51,8 +51,8 @@ describe('User model', function () {
           describe('given valid arguments', function () {
             it('returns a non-temporary User instance', function () {
               const opts = {
-                name: 'test-user',
-                password: 'password',
+                name: MockDataAdapter.newUserName,
+                password: MockDataAdapter.newUserPassword,
                 dataAdapter: new MockDataAdapter()
               };
               const promise = User.create(opts);

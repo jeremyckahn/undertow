@@ -2,8 +2,11 @@ const DataAdapter = require('../../db/data-adapter');
 
 const tempUserId = '12345';
 
+const newUserName = 'new-user';
+const newUserPassword = 'new-user-password';
 const existingUserName = 'existing-user';
 const existingUserId = '23456';
+const existingUserPassword = 'existing-user-password';
 const nonExistingUserName = 'non-existing-user';
 const nonExistingUserId = '00000';
 
@@ -41,7 +44,7 @@ class MockDataAdapter extends DataAdapter {
   createUser (options) {
     const { name, password } = options;
 
-    if (name === 'test-user' && password === 'password') {
+    if (name === newUserName && password === newUserPassword) {
       return Promise.resolve({ name, id: MockDataAdapter.tempUserId });
     }
 
@@ -54,6 +57,8 @@ class MockDataAdapter extends DataAdapter {
 MockDataAdapter.tempUserId = tempUserId;
 MockDataAdapter.existingUserName = existingUserName;
 MockDataAdapter.existingUserId = existingUserId;
+MockDataAdapter.newUserName = newUserName;
+MockDataAdapter.newUserPassword = newUserPassword;
 MockDataAdapter.nonExistingUserName = nonExistingUserName;
 MockDataAdapter.nonExistingUserId = nonExistingUserId;
 

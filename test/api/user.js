@@ -9,15 +9,16 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-const testUserProps = {
-  name: 'test-user',
-  password: 'password'
-};
+const {
+  newUserName,
+  newUserPassword,
+  existingUserName,
+  existingUserPassword,
+  existingUserId,
+  tempUserId
+} = MockDataAdapter;
 
 describe('/api', function () {
-  const { name, password } = testUserProps;
-  const id = MockDataAdapter.tempUserId;
-
   before(function () {
     const dataAdapter = new MockDataAdapter();
     return dataAdapter.connect().then(_ => app.start(dataAdapter));
@@ -36,6 +37,10 @@ describe('/api', function () {
 
   describe('/user', function () {
     describe('/create', function () {
+      const name = newUserName;
+      const password = newUserPassword;
+      const id = tempUserId;
+
       it('responds', () =>
         chai.request(app)
           .post('/api/user/create')
@@ -65,7 +70,7 @@ describe('/api', function () {
       it('returns error if user already exists', () =>
         chai.request(app)
           .post('/api/user/create')
-          .send({ name: 'existing-user', password: '_' })
+          .send({ name: MockDataAdapter.existingUserName, password: '_' })
           .then(res =>
             expect(res)
               .to.have.status(200)
