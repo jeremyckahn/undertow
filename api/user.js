@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/user');
+const DataAdapter = require('../db/data-adapter');
 const router = express.Router({
   strict: true
 });
@@ -24,7 +25,7 @@ function doesUserExist (req, res, next) {
 }
 
 function login (req, res, next) {
-  res.send({ errorMessage: 'invalid credentials' });
+  res.send({ errorMessage: DataAdapter.INVALID_CREDENTIALS });
 }
 
 const handlerMap = {

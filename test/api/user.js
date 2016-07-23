@@ -191,7 +191,7 @@ describe('/api', function () {
                 .to.have.deep.property('body')
                   .that
                   .deep.equals({
-                    errorMessage: 'invalid credentials'
+                    errorMessage: DataAdapter.INVALID_CREDENTIALS
                   })
             )
         );

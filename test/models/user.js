@@ -94,21 +94,21 @@ describe('User model', function () {
               return promise.catch(
                 err => expect(err)
                   .to.deep.equal({
-                    errorMessage: User.INSUFFICIENT_ARGUMENTS
+                    errorMessage: User.INVALID_ARGUMENTS
                   })
               );
             });
           });
         });
 
-        describe('insufficient arguments', function () {
+        describe('missing arguments', function () {
           it('returns an error', function () {
             const promise = User.create({ name: 'some-user' });
 
             return promise.catch(
               err => expect(err)
                 .to.deep.equal({
-                  errorMessage: User.INSUFFICIENT_ARGUMENTS
+                  errorMessage: User.INVALID_ARGUMENTS
                 })
             );
           });
@@ -168,6 +168,80 @@ describe('User model', function () {
               .then(
                 doesUserExist => expect(doesUserExist).to.equal(false)
               )
+            );
+          });
+        });
+      });
+
+      describe('fetch', function () {
+        it('exists', function () {
+          expect(User).itself.to.respondTo('fetch');
+        });
+
+        describe('valid arguments', function () {
+          describe('given valid credentials', function () {
+            it('returns user object', function () {
+              const opts = {
+                name: MockDataAdapter.existingUserName,
+                password: MockDataAdapter.existingUserPassword,
+                dataAdapter: new MockDataAdapter()
+              };
+
+              const promise = User.fetch(opts);
+
+              return promise.then(user => {
+                expect(user).to.be.an.instanceof(User);
+                expect(user.name).to.equal(opts.name);
+                expect(user.id).to.equal(MockDataAdapter.existingUserId);
+                expect(user.isTempUser).to.equal(false);
+              });
+            });
+          });
+
+          describe('given invalid credentials', function () {
+            it('returns an error object', function () {
+              const promise = User.fetch({
+                name: MockDataAdapter.existingUserName,
+                password: '_',
+                dataAdapter: new MockDataAdapter()
+              });
+
+              return promise.catch(
+                err => expect(err)
+                  .to.deep.equal({
+                    errorMessage: DataAdapter.INVALID_CREDENTIALS
+                  })
+              );
+            });
+          });
+        });
+
+        describe('invalid arguments', function () {
+          it('returns an error', function () {
+            const promise = User.fetch({
+              name: 1,
+              password: 2,
+              dataAdapter: new MockDataAdapter()
+            });
+
+            return promise.catch(
+              err => expect(err)
+                .to.deep.equal({
+                  errorMessage: User.INVALID_ARGUMENTS
+                })
+            );
+          });
+        });
+
+        describe('missing arguments', function () {
+          it('returns an error', function () {
+            const promise = User.fetch({ name: 'some-user' });
+
+            return promise.catch(
+              err => expect(err)
+                .to.deep.equal({
+                  errorMessage: User.INVALID_ARGUMENTS
+                })
             );
           });
         });

@@ -52,16 +52,35 @@ class User {
    */
   static create (options) {
     if (!UserShape.is(options)) {
-      return User.reject.insufficientArguments();
+      return User.reject.invalidArguments();
     }
 
-    const dataAdapter = options.dataAdapter;
+    const { dataAdapter } = options;
 
     return dataAdapter.createUser(options)
       .then(
         res => new User({ name: res.name, id: res.id, dataAdapter })
-      ).catch(
-        err => Promise.reject(err)
+      );
+  }
+
+  /**
+   * TODO: Support optionally fetching by ID instead of name
+   * @param {Object} options
+   * @param {string} options.name
+   * @param {string} options.password
+   * @param {DataAdapter} options.dataAdapter
+   * @return {Promise}
+   */
+  static fetch (options) {
+    if (!UserShape.is(options)) {
+      return User.reject.invalidArguments();
+    }
+
+    const { dataAdapter, name, password } = options;
+
+    return dataAdapter.fetchUser({ name, password })
+      .then(
+        res => new User({ name: res.name, id: res.id, dataAdapter })
       );
   }
 
@@ -75,11 +94,11 @@ class User {
 }
 
 Object.assign(User, {
-  INSUFFICIENT_ARGUMENTS: 'insufficient arguments',
+  INVALID_ARGUMENTS: 'invalid arguments',
 
   reject: {
-    insufficientArguments: _ =>
-      Promise.reject({ errorMessage: User.INSUFFICIENT_ARGUMENTS })
+    invalidArguments: _ =>
+      Promise.reject({ errorMessage: User.INVALID_ARGUMENTS })
   }
 });
 

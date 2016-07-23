@@ -16,14 +16,27 @@ class DataAdapter {
    * @return {Promise}
    */
   createUser () {}
+
+  /**
+   * TODO: Support optionally fetching by ID instead of name
+   * @abstract
+   * @param {Object} options
+   * @param {string} options.name
+   * @param {string} options.password
+   * @return {Promise}
+   */
+  fetchUser () {}
 }
 
 Object.assign(DataAdapter, {
   USER_EXISTS: 'user exists',
+  INVALID_CREDENTIALS: 'invalid credentials',
 
   reject: {
     userExists:
-      _ => Promise.reject({ errorMessage: DataAdapter.USER_EXISTS })
+      _ => Promise.reject({ errorMessage: DataAdapter.USER_EXISTS }),
+    invalidCredentials:
+      _ => Promise.reject({ errorMessage: DataAdapter.INVALID_CREDENTIALS })
   }
 });
 

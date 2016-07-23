@@ -45,17 +45,35 @@ class MockDataAdapter extends DataAdapter {
     const { name, password } = options;
 
     if (name === newUserName && password === newUserPassword) {
-      return Promise.resolve({ name, id: MockDataAdapter.tempUserId });
+      return Promise.resolve({ name, id: tempUserId });
     }
 
     if (name === existingUserName) {
       return DataAdapter.reject.userExists();
     }
   }
+
+  /**
+   * @override
+   * @param {Object} options
+   * @param {string} options.name
+   * @param {string} options.password
+   * @return {Promise}
+   */
+  fetchUser (options) {
+    const { name, password } = options;
+
+    if (name === existingUserName && password === existingUserPassword) {
+      return Promise.resolve({ name, id: existingUserId });
+    }
+
+    return DataAdapter.reject.invalidCredentials();
+  }
 }
 
 MockDataAdapter.tempUserId = tempUserId;
 MockDataAdapter.existingUserName = existingUserName;
+MockDataAdapter.existingUserPassword = existingUserPassword;
 MockDataAdapter.existingUserId = existingUserId;
 MockDataAdapter.newUserName = newUserName;
 MockDataAdapter.newUserPassword = newUserPassword;
