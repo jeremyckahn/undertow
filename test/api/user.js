@@ -202,13 +202,15 @@ describe('/api', function () {
         const id = existingUserId;
         const password = existingUserPassword;
 
-        it('returns a user object', () =>
+        it('returns a cookied response with a user object', () =>
           chai.request(app)
             .post('/api/user/login')
             .send({ name, password })
             .then(res =>
               expect(res)
                 .to.have.status(200)
+                .and
+                .to.have.header('Set-Cookie', /sid=.*;/)
                 .and
                 .to.have.deep.property('body')
                   .that

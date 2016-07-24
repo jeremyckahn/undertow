@@ -1,11 +1,11 @@
 const express = require('express');
+const session = require('express-session');
 const slash = require('express-slash');
 const mustacheExpress = require('mustache-express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const shell = require('shelljs');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const SimpleJsonDataAdapter = require('./db/adapters/simple-json');
 
@@ -31,7 +31,12 @@ app.start = function (dataAdapter) {
   app.use(logger('dev'))
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: false }))
-    .use(cookieParser());
+    // FIXME: This is not set up securely.  These options MUST be revisted
+    // before this application is used in any kind of a public environment.
+    .use(session({
+      secret: 'lol its a secret'
+    }));
+
 
   app
     .use(express.static(
