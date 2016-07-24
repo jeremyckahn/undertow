@@ -223,5 +223,53 @@ describe('/api', function () {
         );
       });
     });
+
+    describe('/logged-in', function () {
+      it('responds', () =>
+        chai.request(app)
+          .post('/api/user/logged-in')
+          .then(res =>
+            expect(res).to.have.status(200)
+          )
+      );
+
+      describe('not logged in', function () {
+        it('returns correct response', () =>
+          chai.request(app)
+            .post('/api/user/logged-in')
+            .then(res =>
+              expect(res)
+                .to.have.status(200)
+                .and
+                .to.have.deep.property('body')
+                .that
+                .equals(false)
+            )
+        );
+      });
+
+      describe('logged in', function () {
+        it('returns correct response', function () {
+          const name = existingUserName;
+          const password = existingUserPassword;
+          const agent = chai.request.agent(app);
+
+          return agent
+            .post('/api/user/login')
+            .send({ name, password })
+            .then(res =>
+              agent.post('/api/user/logged-in')
+                .then(res =>
+                  expect(res)
+                    .to.have.status(200)
+                    .and
+                    .to.have.deep.property('body')
+                    .that
+                    .equals(true)
+                )
+            );
+        });
+      });
+    });
   });
 });

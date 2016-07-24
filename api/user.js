@@ -31,17 +31,26 @@ function login (req, res, next) {
 
   User.doesExist(credentials)
     .then(doesExist => doesExist?
-      User.fetch(credentials).then(send)
+      User.fetch(credentials)
+        .then(user => {
+          req.session.user = user;
+          return send(user);
+        })
       :
       send({ errorMessage: DataAdapter.INVALID_CREDENTIALS })
     )
     .catch(send);
 }
 
+function isLoggedIn (req, res, next) {
+  res.send(!!req.session.user);
+}
+
 const handlerMap = {
   create: createUser,
   'does-exist': doesUserExist,
-  login: login
+  login: login,
+  'logged-in': isLoggedIn
 };
 
 router.post('/user/:method', function (req, res, next) {
