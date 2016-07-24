@@ -196,6 +196,30 @@ describe('/api', function () {
             )
         );
       });
+
+      describe('valid credentials', function () {
+        const name = existingUserName;
+        const id = existingUserId;
+        const password = existingUserPassword;
+
+        it('returns a user object', () =>
+          chai.request(app)
+            .post('/api/user/login')
+            .send({ name, password })
+            .then(res =>
+              expect(res)
+                .to.have.status(200)
+                .and
+                .to.have.deep.property('body')
+                  .that
+                  .deep.equals({
+                    isTempUser: false,
+                    id,
+                    name
+                  })
+            )
+        );
+      });
     });
   });
 });

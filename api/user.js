@@ -25,7 +25,17 @@ function doesUserExist (req, res, next) {
 }
 
 function login (req, res, next) {
-  res.send({ errorMessage: DataAdapter.INVALID_CREDENTIALS });
+  const { name, password } = req.body;
+  const credentials = { name, password, dataAdapter };
+  const send = res.send.bind(res);
+
+  User.doesExist(credentials)
+    .then(doesExist => doesExist?
+      User.fetch(credentials).then(send)
+      :
+      send({ errorMessage: DataAdapter.INVALID_CREDENTIALS })
+    )
+    .catch(send);
 }
 
 const handlerMap = {
