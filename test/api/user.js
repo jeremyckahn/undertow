@@ -257,6 +257,9 @@ describe('/api', function () {
     });
 
     describe('/logged-in', function () {
+      const name = existingUserName;
+      const password = existingUserPassword;
+
       it('responds', () =>
         chai.request(app)
           .post('/api/user/logged-in')
@@ -279,24 +282,48 @@ describe('/api', function () {
       });
 
       describe('logged in', function () {
-        it('returns correct response', function () {
-          const name = existingUserName;
-          const password = existingUserPassword;
-          const agent = chai.request.agent(app);
+        let agent;
+        beforeEach(function () {
+          agent = chai.request.agent(app);
+
+          return agent
+            .post('/api/user/login')
+            .send({ name, password });
+        });
+
+        it('returns correct response', () =>
+          agent.post('/api/user/logged-in')
+            .then(res =>
+              expect(res)
+                .to.have.deep.property('body')
+                .that
+                .equals(true)
+            )
+        );
+      });
+
+      describe('post-login/logout sequence', function () {
+        let agent;
+        beforeEach(function () {
+          agent = chai.request.agent(app);
 
           return agent
             .post('/api/user/login')
             .send({ name, password })
-            .then(res =>
-              agent.post('/api/user/logged-in')
-                .then(res =>
-                  expect(res)
-                    .to.have.deep.property('body')
-                    .that
-                    .equals(true)
-                )
+            .then(() =>
+              agent.post('/api/user/logout')
             );
         });
+
+        it('returns correct response', () =>
+          agent.post('/api/user/logged-in')
+            .then(res =>
+              expect(res)
+                .to.have.deep.property('body')
+                .that
+                .equals(false)
+            )
+        );
       });
     });
   });
