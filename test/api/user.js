@@ -55,8 +55,6 @@ describe('/api', function () {
           .send({ name, password })
           .then(res =>
             expect(res)
-              .to.have.status(200)
-              .and
               .to.have.deep.property('body')
                 .that
                 .deep.equals({
@@ -73,8 +71,6 @@ describe('/api', function () {
           .send({ name: MockDataAdapter.existingUserName, password: '_' })
           .then(res =>
             expect(res)
-              .to.have.status(200)
-              .and
               .to.have.deep.property('body')
                 .that
                 .deep.equals({
@@ -101,8 +97,6 @@ describe('/api', function () {
               .send({ name: MockDataAdapter.existingUserName })
               .then(res =>
                 expect(res)
-                  .to.have.status(200)
-                  .and
                   .to.have.deep.property('body')
                     .that
                     .deep.equals({
@@ -119,8 +113,6 @@ describe('/api', function () {
               .send({ name: MockDataAdapter.nonExistingUserName })
               .then(res =>
                 expect(res)
-                  .to.have.status(200)
-                  .and
                   .to.have.deep.property('body')
                     .that
                     .deep.equals({
@@ -139,8 +131,6 @@ describe('/api', function () {
               .send({ id: MockDataAdapter.existingUserId })
               .then(res =>
                 expect(res)
-                  .to.have.status(200)
-                  .and
                   .to.have.deep.property('body')
                     .that
                     .deep.equals({
@@ -157,8 +147,6 @@ describe('/api', function () {
               .send({ id: MockDataAdapter.nonExistingUserId })
               .then(res =>
                 expect(res)
-                  .to.have.status(200)
-                  .and
                   .to.have.deep.property('body')
                     .that
                     .deep.equals({
@@ -186,8 +174,6 @@ describe('/api', function () {
             .send({})
             .then(res =>
               expect(res)
-                .to.have.status(200)
-                .and
                 .to.have.deep.property('body')
                   .that
                   .deep.equals({
@@ -208,8 +194,6 @@ describe('/api', function () {
             .send({ name, password })
             .then(res =>
               expect(res)
-                .to.have.status(200)
-                .and
                 .to.have.header('Set-Cookie', /sid=.*;/)
                 .and
                 .to.have.deep.property('body')
@@ -239,8 +223,6 @@ describe('/api', function () {
             .post('/api/user/logged-in')
             .then(res =>
               expect(res)
-                .to.have.status(200)
-                .and
                 .to.have.deep.property('body')
                 .that
                 .equals(false)
@@ -261,8 +243,6 @@ describe('/api', function () {
               agent.post('/api/user/logged-in')
                 .then(res =>
                   expect(res)
-                    .to.have.status(200)
-                    .and
                     .to.have.deep.property('body')
                     .that
                     .equals(true)
