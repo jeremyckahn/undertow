@@ -8,6 +8,13 @@ const router = express.Router({
 const app = require('../app');
 const { dataAdapter } = app;
 
+/**
+ * @return {boolean}
+ */
+function isSessionedRequest (req) {
+  return !!req.session.user;
+}
+
 function createUser (req, res, next) {
   const { name, password } = req.body;
 
@@ -42,14 +49,23 @@ function login (req, res, next) {
     .catch(send);
 }
 
+function logout (req, res, next) {
+  return isSessionedRequest(req)?
+    req.session.destroy(err => res.send(err || true))
+    :
+    res.send({ errorMessage: DataAdapter.NOT_LOGGED_IN })
+  ;
+}
+
 function isLoggedIn (req, res, next) {
-  res.send(!!req.session.user);
+  res.send(isSessionedRequest(req));
 }
 
 const handlerMap = {
   create: createUser,
   'does-exist': doesUserExist,
   login: login,
+  logout: logout,
   'logged-in': isLoggedIn
 };
 

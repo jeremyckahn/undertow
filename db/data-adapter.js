@@ -31,6 +31,7 @@ class DataAdapter {
 Object.assign(DataAdapter, {
   USER_EXISTS: 'user exists',
   INVALID_CREDENTIALS: 'invalid credentials',
+  NOT_LOGGED_IN: 'not logged in',
 
   reject: {
     userExists:

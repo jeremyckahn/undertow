@@ -208,6 +208,54 @@ describe('/api', function () {
       });
     });
 
+    describe('/logout', function () {
+      it('responds', () =>
+        chai.request(app)
+          .post('/api/user/logout')
+          .then(res =>
+            expect(res).to.have.status(200)
+          )
+      );
+
+      describe('pre-login', function () {
+        it('returns error object', () =>
+          chai.request(app)
+            .post('/api/user/logout')
+            .then(res =>
+              expect(res)
+                .to.have.deep.property('body')
+                .that
+                .deep.equals({
+                  errorMessage: DataAdapter.NOT_LOGGED_IN
+                })
+            )
+        );
+      });
+
+      describe('post-login', function () {
+        let agent;
+        beforeEach(function () {
+          const name = existingUserName;
+          const password = existingUserPassword;
+          agent = chai.request.agent(app);
+
+          return agent
+            .post('/api/user/login')
+            .send({ name, password });
+        });
+
+        it('logs the user out', () =>
+          agent.post('/api/user/logout')
+            .then(res =>
+              expect(res)
+                .to.have.deep.property('body')
+                .that
+                .equals(true)
+            )
+        );
+      });
+    });
+
     describe('/logged-in', function () {
       it('responds', () =>
         chai.request(app)
