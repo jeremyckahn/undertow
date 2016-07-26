@@ -4,7 +4,7 @@
   "description": "A platform for publishing web animations",
   "private": true,
   "author": "jeremyckahn@gmail.com",
-  "license": "UNLICENSED",
+  "license": "CC BY-NC-SA",
   "scripts": {
     "start": "sh task.sh start",
     "start:debug": "sh task.sh start:debug",
