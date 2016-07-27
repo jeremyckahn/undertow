@@ -1,6 +1,12 @@
 class DataAdapter {
   /**
    * @abstract
+   * @return {Promise}
+   */
+  connect () {}
+
+  /**
+   * @abstract
    * @param {Object} options
    * @param {string} [options.id]
    * @param {string} [options.name]
