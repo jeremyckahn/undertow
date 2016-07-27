@@ -18,6 +18,7 @@ class SimpleJsonDataAdapter extends DataAdapter {
   }
 
   /**
+   * @override
    * @return {Promise}
    */
   connect () {

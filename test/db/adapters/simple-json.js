@@ -10,13 +10,13 @@ const DataAdapter = require('../../../db/data-adapter');
 const SimpleJsonDataAdapter = require('../../../db/adapters/simple-json');
 
 const testDbFilePath = '/tmp/simple-json-db.json';
-const testUserData = { name: 'test-user', password: 'test-password' };
-const testUserDataWithId = Object.assign({},
-  testUserData,
-  { id: objectHash(testUserData.name) }
+const newUserData = { name: 'new-user', password: 'new-user-password' };
+const newUserDataWithId = Object.assign({},
+  newUserData,
+  { id: objectHash(newUserData.name) }
 );
 
-describe('SimpleJsonDataAdapter', function () {
+describe.only('SimpleJsonDataAdapter', function () {
   let simpleDataAdapter;
 
   beforeEach(function () {
@@ -111,11 +111,11 @@ describe('SimpleJsonDataAdapter', function () {
 
       describe('no preexisting user data', function () {
         it('creates a user object', function () {
-          return simpleDataAdapter.createUser(testUserData).then(_ =>
+          return simpleDataAdapter.createUser(newUserData).then(_ =>
             expect(
-              simpleDataAdapter.store.users[testUserData.name]
+              simpleDataAdapter.store.users[newUserData.name]
             ).to.deep.equal(
-              testUserDataWithId
+              newUserDataWithId
             )
           );
         });
@@ -123,15 +123,15 @@ describe('SimpleJsonDataAdapter', function () {
 
       describe('preexisting data', function () {
         beforeEach(function () {
-          simpleDataAdapter.createUser(testUserData);
+          simpleDataAdapter.createUser(newUserData);
         });
 
         it('throws an error if user already exists', function () {
-          return simpleDataAdapter.createUser(testUserData).catch(error =>
+          return simpleDataAdapter.createUser(newUserData).catch(error =>
             expect(
               error
             ).to.equal(
-              'users.test-user already exists'
+              'users.new-user already exists'
             )
           );
         });
