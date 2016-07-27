@@ -16,7 +16,7 @@ const newUserDataWithId = Object.assign({},
   { id: objectHash(newUserData.name) }
 );
 
-describe.only('SimpleJsonDataAdapter', function () {
+describe('SimpleJsonDataAdapter', function () {
   let simpleDataAdapter;
 
   beforeEach(function () {
@@ -56,11 +56,11 @@ describe.only('SimpleJsonDataAdapter', function () {
           jsonfile.writeFileSync(testDbFilePath, testData);
         });
 
-        it('populates store with dbFile', function () {
-          return simpleDataAdapter.connect().then(_ =>
+        it('populates store with dbFile', () =>
+          simpleDataAdapter.connect().then(_ =>
             expect(simpleDataAdapter.store).to.deep.equal(testData)
-          );
-        });
+          )
+        );
       });
 
       describe('db file does not already exist', function () {
@@ -77,12 +77,12 @@ describe.only('SimpleJsonDataAdapter', function () {
         expect(simpleDataAdapter).to.respondTo('writeToDisk');
       });
 
-      it('writes data to dbFile path', function () {
-        return simpleDataAdapter.writeToDisk().then(_ => {
+      it('writes data to dbFile path', () =>
+        simpleDataAdapter.writeToDisk().then(_ => {
           const fileData = JSON.parse(fs.readFileSync(testDbFilePath));
           expect(fileData).to.deep.equal({});
-        });
-      });
+        })
+      );
     });
 
     describe('readFromDisk', function () {
@@ -96,12 +96,14 @@ describe.only('SimpleJsonDataAdapter', function () {
         expect(simpleDataAdapter).to.respondTo('readFromDisk');
       });
 
-      it('reads data from dbFile path', function () {
-        return simpleDataAdapter.readFromDisk().then(data => {
-          expect(simpleDataAdapter.store).to.deep.equal(testData);
-          expect(simpleDataAdapter.store).to.deep.equal(data);
-        });
-      });
+      it('reads data from dbFile path', () =>
+        simpleDataAdapter.readFromDisk().then(data =>
+          expect(simpleDataAdapter.store)
+            .to.deep.equal(testData)
+            .and
+            .to.deep.equal(data)
+        )
+      );
     });
 
     describe('createUser', function () {
@@ -110,15 +112,15 @@ describe.only('SimpleJsonDataAdapter', function () {
       });
 
       describe('no preexisting user data', function () {
-        it('creates a user object', function () {
-          return simpleDataAdapter.createUser(newUserData).then(_ =>
+        it('creates a user object', () =>
+          simpleDataAdapter.createUser(newUserData).then(_ =>
             expect(
               simpleDataAdapter.store.users[newUserData.name]
             ).to.deep.equal(
               newUserDataWithId
             )
-          );
-        });
+          )
+        );
       });
 
       describe('preexisting data', function () {
@@ -126,15 +128,15 @@ describe.only('SimpleJsonDataAdapter', function () {
           simpleDataAdapter.createUser(newUserData);
         });
 
-        it('throws an error if user already exists', function () {
-          return simpleDataAdapter.createUser(newUserData).catch(error =>
+        it('throws an error if user already exists', () =>
+          simpleDataAdapter.createUser(newUserData).catch(error =>
             expect(
               error
             ).to.equal(
               'users.new-user already exists'
             )
-          );
-        });
+          )
+        );
       });
     });
   });
