@@ -139,5 +139,35 @@ describe('SimpleJsonDataAdapter', function () {
         );
       });
     });
+
+    describe('doesUserExist', function () {
+      it('exists', function () {
+        expect(simpleDataAdapter).to.respondTo('doesUserExist');
+      });
+
+      describe('lookup by name', function () {
+        const { name } = newUserData;
+
+        describe('user does not exist', function () {
+          it('returns the correct result', () =>
+            simpleDataAdapter.doesUserExist({ name }).then(
+              doesUserExist => expect(doesUserExist).to.equal(false)
+            )
+          );
+        });
+
+        describe('user does exist', function () {
+          beforeEach(() =>
+            simpleDataAdapter.createUser(newUserData)
+          );
+
+          it('returns the correct result', () =>
+            simpleDataAdapter.doesUserExist({ name }).then(
+              doesUserExist => expect(doesUserExist).to.equal(true)
+            )
+          );
+        });
+      });
+    });
   });
 });
