@@ -168,6 +168,30 @@ describe('SimpleJsonDataAdapter', function () {
           );
         });
       });
+
+      describe('lookup by id', function () {
+        const { name, id } = newUserDataWithId;
+
+        describe('user does not exist', function () {
+          it('returns the correct result', () =>
+            simpleDataAdapter.doesUserExist({ id }).then(
+              doesUserExist => expect(doesUserExist).to.equal(false)
+            )
+          );
+        });
+
+        describe('user does exist', function () {
+          beforeEach(() =>
+            simpleDataAdapter.createUser(newUserData)
+          );
+
+          it('returns the correct result', () =>
+            simpleDataAdapter.doesUserExist({ id }).then(
+              doesUserExist => expect(doesUserExist).to.equal(true)
+            )
+          );
+        });
+      });
     });
   });
 });

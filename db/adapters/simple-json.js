@@ -92,10 +92,16 @@ class SimpleJsonDataAdapter extends DataAdapter {
    * @return {Promise}
    */
   doesUserExist (options) {
-    // FIXME: Support lookup by ID
-    const { name } = options;
-    const { users } = this.store;
-    return Promise.resolve(users ? !!users[name] : false);
+    const { name, id } = options;
+    const users = this.store.users || {};
+
+    const doesUserExist = !!(name?
+      users[name]
+      :
+      _.find(users, { id })
+    );
+
+    return Promise.resolve(doesUserExist);
   }
 }
 
