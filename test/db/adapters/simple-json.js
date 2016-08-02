@@ -193,5 +193,35 @@ describe('SimpleJsonDataAdapter', function () {
         );
       });
     });
+
+    describe('fetchUser', function () {
+      const { name, password } = newUserDataWithId;
+
+      it('exists', function () {
+        expect(simpleDataAdapter).to.respondTo('fetchUser');
+      });
+
+      describe('given valid credentials', function () {
+        beforeEach(() =>
+          simpleDataAdapter.createUser(newUserData)
+        );
+
+        it('resolves with a user object', () =>
+          simpleDataAdapter.fetchUser({ name, password }).then(user =>
+            expect(user).to.deep.equal(newUserDataWithId)
+          )
+        );
+      });
+
+      describe('given invalid credentials', function () {
+        it('rejects with an error object', () =>
+          simpleDataAdapter.fetchUser({ name, password }).catch(err =>
+            expect(err).to.deep.equal(
+              { errorMessage: DataAdapter.INVALID_CREDENTIALS }
+            )
+          )
+        );
+      });
+    });
   });
 });

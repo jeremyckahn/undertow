@@ -103,6 +103,25 @@ class SimpleJsonDataAdapter extends DataAdapter {
 
     return this.writeToDisk();
   }
+
+  /**
+   * @override
+   * @param {Object} options
+   * @param {string} options.name
+   * @param {string} options.password
+   * @return {Promise}
+   */
+  fetchUser (options) {
+    const { name, password } = options;
+    const users = this.store.users || {};
+
+    return this.doesUserExist({ name, password }).then(doesUserExist =>
+      doesUserExist?
+        Promise.resolve(users[name])
+        :
+        DataAdapter.reject.invalidCredentials()
+    );
+  }
 }
 
 module.exports = SimpleJsonDataAdapter;
