@@ -64,7 +64,7 @@ describe('User model', function () {
 
         describe('sufficient arguments', function () {
           describe('given valid arguments', function () {
-            it('returns a non-temporary User instance', function () {
+            it('resolves with a non-temporary User instance', function () {
               const opts = {
                 name: newUserName,
                 password: newUserPassword,
@@ -82,7 +82,7 @@ describe('User model', function () {
           });
 
           describe('user exists', function () {
-            it('returns an error object', function () {
+            it('rejects with an error object', function () {
               const promise = User.create({
                 name: existingUserName,
                 password: '_',
@@ -99,7 +99,7 @@ describe('User model', function () {
           });
 
           describe('given invalid arguments', function () {
-            it('returns an error', function () {
+            it('rejects with an error object', function () {
               const promise = User.create({
                 name: 1,
                 password: 2,
@@ -117,7 +117,7 @@ describe('User model', function () {
         });
 
         describe('missing arguments', function () {
-          it('returns an error', function () {
+          it('rejects with an error object', function () {
             const promise = User.create({ name: 'some-user' });
 
             return promise.catch(
@@ -137,7 +137,7 @@ describe('User model', function () {
 
         describe('lookup by name', function () {
           describe('user exists', function () {
-            it('returns correct result', () =>
+            it('resolves with correct result', () =>
               User.doesExist({
                 dataAdapter,
                 name: existingUserName
@@ -149,7 +149,7 @@ describe('User model', function () {
           });
 
           describe('user does not exist', function () {
-            it('returns correct result', () =>
+            it('resolves with correct result', () =>
               User.doesExist({
                 dataAdapter,
                 name: nonExistingUserName
@@ -163,7 +163,7 @@ describe('User model', function () {
 
         describe('lookup by id', function () {
           describe('user exists', function () {
-            it('returns correct result', () =>
+            it('resolves with correct result', () =>
               User.doesExist({
                 dataAdapter,
                 id: existingUserId
@@ -175,7 +175,7 @@ describe('User model', function () {
           });
 
           describe('user does not exist', function () {
-            it('returns correct result', () =>
+            it('resolves with correct result', () =>
               User.doesExist({
                 dataAdapter,
                 id: nonExistingUserId
@@ -195,7 +195,7 @@ describe('User model', function () {
 
         describe('valid arguments', function () {
           describe('given valid credentials', function () {
-            it('returns user object', function () {
+            it('resolves with user object', function () {
               const opts = {
                 name: existingUserName,
                 password: existingUserPassword,
@@ -214,7 +214,7 @@ describe('User model', function () {
           });
 
           describe('given invalid credentials', function () {
-            it('returns an error object', function () {
+            it('rejects with an error object', function () {
               const promise = User.fetch({
                 name: existingUserName,
                 password: '_',
@@ -232,7 +232,7 @@ describe('User model', function () {
         });
 
         describe('invalid arguments', function () {
-          it('returns an error', function () {
+          it('rejects with an error object', function () {
             const promise = User.fetch({
               name: 1,
               password: 2,
@@ -249,7 +249,7 @@ describe('User model', function () {
         });
 
         describe('missing arguments', function () {
-          it('returns an error', function () {
+          it('rejects with an error object', function () {
             const promise = User.fetch({ name: 'some-user' });
 
             return promise.catch(
