@@ -106,40 +106,6 @@ describe('SimpleJsonDataAdapter', function () {
       );
     });
 
-    describe('createUser', function () {
-      it('exists', function () {
-        expect(simpleDataAdapter).to.respondTo('createUser');
-      });
-
-      describe('no preexisting user data', function () {
-        it('creates a user object', () =>
-          simpleDataAdapter.createUser(newUserData).then(_ =>
-            expect(
-              simpleDataAdapter.store.users[newUserData.name]
-            ).to.deep.equal(
-              newUserDataWithId
-            )
-          )
-        );
-      });
-
-      describe('preexisting data', function () {
-        beforeEach(function () {
-          simpleDataAdapter.createUser(newUserData);
-        });
-
-        it('throws an error if user already exists', () =>
-          simpleDataAdapter.createUser(newUserData).catch(error =>
-            expect(
-              error
-            ).to.equal(
-              'users.new-user already exists'
-            )
-          )
-        );
-      });
-    });
-
     describe('doesUserExist', function () {
       it('exists', function () {
         expect(simpleDataAdapter).to.respondTo('doesUserExist');
@@ -191,6 +157,40 @@ describe('SimpleJsonDataAdapter', function () {
             )
           );
         });
+      });
+    });
+
+    describe('createUser', function () {
+      it('exists', function () {
+        expect(simpleDataAdapter).to.respondTo('createUser');
+      });
+
+      describe('no preexisting user data', function () {
+        it('creates a user object', () =>
+          simpleDataAdapter.createUser(newUserData).then(_ =>
+            expect(
+              simpleDataAdapter.store.users[newUserData.name]
+            ).to.deep.equal(
+              newUserDataWithId
+            )
+          )
+        );
+      });
+
+      describe('preexisting data', function () {
+        beforeEach(function () {
+          simpleDataAdapter.createUser(newUserData);
+        });
+
+        it('throws an error if user already exists', () =>
+          simpleDataAdapter.createUser(newUserData).catch(error =>
+            expect(
+              error
+            ).to.equal(
+              'users.new-user already exists'
+            )
+          )
+        );
       });
     });
   });

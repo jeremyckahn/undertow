@@ -65,6 +65,26 @@ class SimpleJsonDataAdapter extends DataAdapter {
   /**
    * @override
    * @param {Object} options
+   * @param {string} [options.id]
+   * @param {string} [options.name]
+   * @return {Promise}
+   */
+  doesUserExist (options) {
+    const { name, id } = options;
+    const users = this.store.users || {};
+
+    const doesUserExist = !!(name?
+      users[name]
+      :
+      _.find(users, { id })
+    );
+
+    return Promise.resolve(doesUserExist);
+  }
+
+  /**
+   * @override
+   * @param {Object} options
    * @param {string} options.name
    * @param {string} options.password
    * @return {Promise}
@@ -82,26 +102,6 @@ class SimpleJsonDataAdapter extends DataAdapter {
     _.set(this.store, namePath, userData);
 
     return this.writeToDisk();
-  }
-
-  /**
-   * @override
-   * @param {Object} options
-   * @param {string} [options.id]
-   * @param {string} [options.name]
-   * @return {Promise}
-   */
-  doesUserExist (options) {
-    const { name, id } = options;
-    const users = this.store.users || {};
-
-    const doesUserExist = !!(name?
-      users[name]
-      :
-      _.find(users, { id })
-    );
-
-    return Promise.resolve(doesUserExist);
   }
 }
 
