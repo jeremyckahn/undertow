@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const session = require('express-session');
 const slash = require('express-slash');
 const mustacheExpress = require('mustache-express');
@@ -37,6 +38,9 @@ app.start = function (dataAdapter) {
       secret: 'lol its a secret'
     }));
 
+  if (process.env.DEBUG) {
+    app.use(cors());
+  }
 
   app
     .use(express.static(
