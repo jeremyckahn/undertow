@@ -16,9 +16,9 @@ function isSessionedRequest (req) {
 }
 
 function createUser (req, res, next) {
-  const { name, password } = req.body;
+  const { name, email, password } = req.body;
 
-  User.create({ name, password, dataAdapter })
+  User.create({ name, password, email, dataAdapter })
     .then(u => res.send(u))
     .catch(e => res.send(e));
 }

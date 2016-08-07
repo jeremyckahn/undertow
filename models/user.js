@@ -1,17 +1,35 @@
 const _ = require('lodash');
 const tcomb = require('tcomb');
 const BaseDataAdapter = require('../db/data-adapter');
+const constant = require('../constant');
 
-const UserShape = tcomb.interface({
+const commonUserShapeProperties = {
   name: tcomb.String,
   password: tcomb.String,
   dataAdapter: tcomb.irreducible('DataAdapter',
     x => x instanceof BaseDataAdapter
   )
-}, {
-  name: 'User',
-  strict: true
-});
+};
+
+const fullUserShape = tcomb.interface(
+  Object.assign({
+    email: tcomb.irreducible('email',
+      x => !!(x || '').match(constant.EMAIL_REGEX)
+    ),
+  }, commonUserShapeProperties), {
+    name: 'FullUser',
+    strict: true
+  }
+);
+
+const loginUserShape = tcomb.interface(
+  Object.assign({},
+    commonUserShapeProperties
+  ), {
+    name: 'LoginUser',
+    strict: true
+  }
+);
 
 class User {
   /**
@@ -46,12 +64,13 @@ class User {
   /**
    * @param {Object} options
    * @param {string} options.name
+   * @param {string} options.email
    * @param {string} options.password
    * @param {DataAdapter} options.dataAdapter
    * @return {Promise}
    */
   static create (options) {
-    if (!UserShape.is(options)) {
+    if (!fullUserShape.is(options)) {
       return User.reject.invalidArguments();
     }
 
@@ -72,7 +91,7 @@ class User {
    * @return {Promise}
    */
   static fetch (options) {
-    if (!UserShape.is(options)) {
+    if (!loginUserShape.is(options)) {
       return User.reject.invalidArguments();
     }
 

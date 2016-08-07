@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach } = require('mocha');
+const { describe, it, beforeEach } = require('mocha');
 const chai = require('chai');
 const { expect } = chai;
 const fs = require('fs');
@@ -9,8 +9,20 @@ const objectHash = require('object-hash');
 const DataAdapter = require('../../../db/data-adapter');
 const SimpleJsonDataAdapter = require('../../../db/adapters/simple-json');
 
+const MockDataAdapter = require('../../utils/mock-data-adapter');
+const {
+  newUserName,
+  newUserEmail,
+  newUserPassword,
+} = MockDataAdapter;
+
 const testDbFilePath = '/tmp/simple-json-db.json';
-const newUserData = { name: 'new-user', password: 'new-user-password' };
+const newUserData = {
+  name: newUserName,
+  email: newUserEmail,
+  password: newUserPassword
+};
+
 const newUserDataWithId = Object.assign({},
   newUserData,
   { id: objectHash(newUserData.name) }

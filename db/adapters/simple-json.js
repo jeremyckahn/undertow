@@ -86,11 +86,12 @@ class SimpleJsonDataAdapter extends DataAdapter {
    * @override
    * @param {Object} options
    * @param {string} options.name
+   * @param {string} options.email
    * @param {string} options.password
    * @return {Promise}
    */
   createUser (options) {
-    const userData = _.pick(options, 'name', 'password');
+    const userData = _.pick(options, 'name', 'email', 'password');
     const { name } = userData;
     userData.id = objectHash(name);
     const namePath = `users.${name}`;

@@ -11,10 +11,14 @@ const { expect } = chai;
 
 const {
   newUserName,
+  newUserEmail,
   newUserPassword,
   existingUserName,
+  existingUserEmail,
   existingUserPassword,
   existingUserId,
+  nonExistingUserName,
+  nonExistingUserId,
   tempUserId
 } = MockDataAdapter;
 
@@ -38,6 +42,7 @@ describe('/api', function () {
   describe('/user', function () {
     describe('/create', function () {
       const name = newUserName;
+      const email = newUserEmail;
       const password = newUserPassword;
       const id = tempUserId;
 
@@ -52,7 +57,7 @@ describe('/api', function () {
       it('returns user data upon success', () =>
         chai.request(app)
           .post('/api/user/create')
-          .send({ name, password })
+          .send({ name, email, password })
           .then(res =>
             expect(res)
               .to.have.deep.property('body')
@@ -68,7 +73,7 @@ describe('/api', function () {
       it('returns error if user already exists', () =>
         chai.request(app)
           .post('/api/user/create')
-          .send({ name: MockDataAdapter.existingUserName, password: '_' })
+          .send({ name: existingUserName, email: existingUserEmail, password: '_' })
           .then(res =>
             expect(res)
               .to.have.deep.property('body')
@@ -94,7 +99,7 @@ describe('/api', function () {
           it('returns correct result', () =>
             chai.request(app)
               .post('/api/user/does-exist')
-              .send({ name: MockDataAdapter.existingUserName })
+              .send({ name: existingUserName })
               .then(res =>
                 expect(res)
                   .to.have.deep.property('body')
@@ -110,7 +115,7 @@ describe('/api', function () {
           it('returns correct result', () =>
             chai.request(app)
               .post('/api/user/does-exist')
-              .send({ name: MockDataAdapter.nonExistingUserName })
+              .send({ name: nonExistingUserName })
               .then(res =>
                 expect(res)
                   .to.have.deep.property('body')
@@ -128,7 +133,7 @@ describe('/api', function () {
           it('returns correct result', () =>
             chai.request(app)
               .post('/api/user/does-exist')
-              .send({ id: MockDataAdapter.existingUserId })
+              .send({ id: existingUserId })
               .then(res =>
                 expect(res)
                   .to.have.deep.property('body')
@@ -144,7 +149,7 @@ describe('/api', function () {
           it('returns correct result', () =>
             chai.request(app)
               .post('/api/user/does-exist')
-              .send({ id: MockDataAdapter.nonExistingUserId })
+              .send({ id: nonExistingUserId })
               .then(res =>
                 expect(res)
                   .to.have.deep.property('body')
@@ -185,13 +190,14 @@ describe('/api', function () {
 
       describe('valid credentials', function () {
         const name = existingUserName;
+        const email = existingUserEmail;
         const id = existingUserId;
         const password = existingUserPassword;
 
         it('returns a cookied response with a user object', () =>
           chai.request(app)
             .post('/api/user/login')
-            .send({ name, password })
+            .send({ name, email, password })
             .then(res =>
               expect(res)
                 .to.have.header('Set-Cookie', /sid=.*;/)

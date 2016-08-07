@@ -9,11 +9,15 @@ const MockDataAdapter = require('../utils/mock-data-adapter');
 const {
   tempUserId,
     newUserName,
+    newUserId,
+    newUserEmail,
     newUserPassword,
     existingUserName,
+    existingUserEmail,
     existingUserPassword,
     existingUserId,
     nonExistingUserName,
+    nonExistingUserEmail,
     nonExistingUserId
 } = MockDataAdapter;
 
@@ -63,10 +67,29 @@ describe('User model', function () {
         });
 
         describe('sufficient arguments', function () {
+          describe('given an invalid email address', function () {
+            it('rejects with an error object', function () {
+              const promise = User.create({
+                name: newUserName,
+                email: '-',
+                password: newUserPassword,
+                dataAdapter
+              });
+
+              return promise.catch(
+                err => expect(err)
+                  .to.deep.equal({
+                    errorMessage: User.INVALID_ARGUMENTS
+                  })
+              );
+            });
+          });
+
           describe('given valid arguments', function () {
             it('resolves with a non-temporary User instance', function () {
               const opts = {
                 name: newUserName,
+                email: newUserEmail,
                 password: newUserPassword,
                 dataAdapter
               };
@@ -85,6 +108,7 @@ describe('User model', function () {
             it('rejects with an error object', function () {
               const promise = User.create({
                 name: existingUserName,
+                email: existingUserEmail,
                 password: '_',
                 dataAdapter
               });
@@ -266,11 +290,14 @@ describe('User model', function () {
     describe('instance methods', function () {
       describe('toJSON', function () {
         let user;
+        const name = newUserName;
+        const id = newUserId;
+
         beforeEach(function () {
           user = new User({
-            name: 'invalid-user'
-            ,id: '22222'
-            ,dataAdapter
+            name,
+            id,
+            dataAdapter
           });
         });
 
@@ -280,8 +307,8 @@ describe('User model', function () {
 
         it('contains expected properties', function () {
           expect(user.toJSON()).to.deep.equal({
-            name: 'invalid-user',
-            id: '22222',
+            name,
+            id,
             isTempUser: false
           });
         });

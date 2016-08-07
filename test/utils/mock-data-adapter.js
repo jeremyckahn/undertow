@@ -3,11 +3,15 @@ const DataAdapter = require('../../db/data-adapter');
 const tempUserId = '12345';
 
 const newUserName = 'new-user';
+const newUserId = '121212';
+const newUserEmail = 'new@user.com';
 const newUserPassword = 'new-user-password';
 const existingUserName = 'existing-user';
+const existingUserEmail = 'existing@user.com';
 const existingUserId = '23456';
 const existingUserPassword = 'existing-user-password';
 const nonExistingUserName = 'non-existing-user';
+const nonExistingUserEmail = 'non-existing@user.com';
 const nonExistingUserId = '00000';
 
 class MockDataAdapter extends DataAdapter {
@@ -38,6 +42,7 @@ class MockDataAdapter extends DataAdapter {
    * @override
    * @param {Object} options
    * @param {string} options.name
+   * @param {string} options.email
    * @param {string} options.password
    * @return {Promise}
    */
@@ -73,11 +78,15 @@ class MockDataAdapter extends DataAdapter {
 
 MockDataAdapter.tempUserId = tempUserId;
 MockDataAdapter.existingUserName = existingUserName;
+MockDataAdapter.existingUserEmail = existingUserEmail;
 MockDataAdapter.existingUserPassword = existingUserPassword;
 MockDataAdapter.existingUserId = existingUserId;
 MockDataAdapter.newUserName = newUserName;
+MockDataAdapter.newUserId = newUserId;
+MockDataAdapter.newUserEmail = newUserEmail;
 MockDataAdapter.newUserPassword = newUserPassword;
 MockDataAdapter.nonExistingUserName = nonExistingUserName;
+MockDataAdapter.nonExistingUserEmail = nonExistingUserEmail;
 MockDataAdapter.nonExistingUserId = nonExistingUserId;
 
 module.exports = MockDataAdapter;
