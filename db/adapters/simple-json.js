@@ -105,7 +105,7 @@ class SimpleJsonDataAdapter extends DataAdapter {
 
     _.set(this.store, namePath, userData);
 
-    return this.writeToDisk();
+    return this.writeToDisk().then(data => data.users[name]);
   }
 
   /**

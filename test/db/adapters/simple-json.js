@@ -188,12 +188,8 @@ describe('SimpleJsonDataAdapter', function () {
 
       describe('no preexisting user data', function () {
         it('creates a user object', () =>
-          simpleDataAdapter.createUser(newUserData).then(_ =>
-            expect(
-              simpleDataAdapter.store.users[newUserData.name]
-            ).to.deep.equal(
-              newUserDataWithId
-            )
+          simpleDataAdapter.createUser(newUserData).then(data =>
+            expect(data).to.deep.equal(newUserDataWithId)
           )
         );
       });
