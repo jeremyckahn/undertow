@@ -41,8 +41,11 @@ class SimpleJsonDataAdapter extends DataAdapter {
   writeToDisk () {
     let resolve;
     const promise = new Promise(res => resolve = res);
+    const stableData = _.clone(this.store);
 
-    jsonfile.writeFile(this.dbFile, this.store, resolve);
+    jsonfile.writeFile(this.dbFile, stableData, (data) => {
+      resolve(stableData);
+    });
 
     return promise;
   }

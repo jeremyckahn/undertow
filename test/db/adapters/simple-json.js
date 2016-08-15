@@ -95,6 +95,15 @@ describe('SimpleJsonDataAdapter', function () {
           expect(fileData).to.deep.equal({});
         })
       );
+
+      it('returns written data via promise', function () {
+        const sampleData = { foo: 'bar' };
+        simpleDataAdapter.store = sampleData;
+
+        return simpleDataAdapter.writeToDisk().then((data) =>
+          expect(data).to.deep.equal(sampleData)
+        );
+      });
     });
 
     describe('readFromDisk', function () {
