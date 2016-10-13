@@ -39,7 +39,7 @@ app.start = function (dataAdapter) {
     // revisited before this application is used in any kind of a public
     // environment.
     .use(session({
-      store: new FileStore(),
+      store: new FileStore({ path: './.sessions' }),
       secret: 'lol its a secret'
     }));
 
