@@ -10,6 +10,9 @@ const shell = require('shelljs');
 const bodyParser = require('body-parser');
 const SimpleJsonDataAdapter = require('./db/adapters/simple-json');
 
+// FIXME: Development data store, NOT FOR PRODUCTION.
+const FileStore = require('session-file-store')(session);
+
 const app = express();
 app.enable('strict routing');
 
@@ -32,9 +35,11 @@ app.start = function (dataAdapter) {
   app.use(logger('dev'))
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: false }))
-    // FIXME: This is not set up securely.  These options MUST be revisted
-    // before this application is used in any kind of a public environment.
+    // FIXME: This is not set up securely or scalably.  These options MUST be
+    // revisited before this application is used in any kind of a public
+    // environment.
     .use(session({
+      store: new FileStore(),
       secret: 'lol its a secret'
     }));
 
