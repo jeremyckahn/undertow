@@ -10,7 +10,7 @@ const shell = require('shelljs');
 const bodyParser = require('body-parser');
 const SimpleJsonDataAdapter = require('./db/adapters/simple-json');
 
-// FIXME: Development data store, NOT FOR PRODUCTION.
+// FIXME: Development session store, NOT FOR PRODUCTION.
 const FileStore = require('session-file-store')(session);
 
 const app = express();

@@ -23,6 +23,9 @@ function createUser (req, res, next) {
     .catch(e => res.send(e));
 }
 
+// FIXME:  It's pretty unsecure to expose this kind of an API publicly.
+// Re-work the user creation process on the front end to obviate the need for
+// this.
 function doesUserExist (req, res, next) {
   const { name, id } = req.body;
 
