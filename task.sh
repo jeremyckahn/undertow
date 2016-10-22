@@ -13,9 +13,11 @@ case "$COMMAND" in
 
   start:debug )
     nodemon \
-      --watch "*.js" \
+      --watch "app.js" \
+      --watch "constant.js" \
       --watch routes \
       --watch models \
+      --watch api \
       --exec "DEBUG=undertow:* npm start"
   ;;
 
