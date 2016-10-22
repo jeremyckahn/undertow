@@ -8,6 +8,7 @@ class DataAdapter {
   /**
    * @abstract
    * @param {Object} options
+   * @param {string} options.password
    * @param {string} [options.id]
    * @param {string} [options.name]
    * @return {Promise}

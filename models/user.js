@@ -51,14 +51,15 @@ class User {
   /**
    * @param {Object} options
    * @param {DataAdapter} options.dataAdapter
+   * @param {string} options.password
    * @param {string} [options.id]
    * @param {string} [options.name]
    * @return {Promise}
    */
   static doesExist (options) {
-    const { dataAdapter, id, name } = options;
+    const { dataAdapter, id, name, password } = options;
 
-    return dataAdapter.doesUserExist({ id, name });
+    return dataAdapter.doesUserExist({ id, name, password });
   }
 
   /**

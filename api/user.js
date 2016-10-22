@@ -27,9 +27,9 @@ function createUser (req, res, next) {
 // Re-work the user creation process on the front end to obviate the need for
 // this.
 function doesUserExist (req, res, next) {
-  const { name, id } = req.body;
+  const { name, id, password } = req.body;
 
-  User.doesExist({ name, id, dataAdapter })
+  User.doesExist({ name, id, password, dataAdapter })
     .then(doesExist => res.send({ doesExist }))
     .catch(e => res.send(e));
 }

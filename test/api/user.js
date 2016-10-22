@@ -95,11 +95,14 @@ describe('/api', function () {
       );
 
       describe('lookup by name', function () {
+        const name = existingUserName;
+        const password = existingUserPassword;
+
         describe('user exists', function () {
           it('returns correct result', () =>
             chai.request(app)
               .post('/api/user/does-exist')
-              .send({ name: existingUserName })
+              .send({ name, password })
               .then(res =>
                 expect(res)
                   .to.have.deep.property('body')
@@ -130,10 +133,13 @@ describe('/api', function () {
 
       describe('lookup by id', function () {
         describe('user exists', function () {
+          const id = existingUserId;
+          const password = existingUserPassword;
+
           it('returns correct result', () =>
             chai.request(app)
               .post('/api/user/does-exist')
-              .send({ id: existingUserId })
+              .send({ id, password })
               .then(res =>
                 expect(res)
                   .to.have.deep.property('body')
@@ -197,7 +203,7 @@ describe('/api', function () {
         it('returns a cookied response with a user object', () =>
           chai.request(app)
             .post('/api/user/login')
-            .send({ name, email, password })
+            .send({ name, password })
             .then(res =>
               expect(res)
                 .to.have.header('Set-Cookie', /sid=.*;/)

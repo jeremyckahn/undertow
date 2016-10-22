@@ -155,6 +155,10 @@ describe('User model', function () {
       });
 
       describe('doesExist', function () {
+        const name = existingUserName;
+        const id = existingUserId;
+        const password = existingUserPassword;
+
         it('exists', function () {
           expect(User).itself.to.respondTo('doesExist');
         });
@@ -162,25 +166,21 @@ describe('User model', function () {
         describe('lookup by name', function () {
           describe('user exists', function () {
             it('resolves with correct result', () =>
-              User.doesExist({
-                dataAdapter,
-                name: existingUserName
-              })
-              .then(
-                doesUserExist => expect(doesUserExist).to.equal(true)
-              )
+              User
+                .doesExist({ dataAdapter, name, password })
+                .then(
+                  doesUserExist => expect(doesUserExist).to.equal(true)
+                )
             );
           });
 
           describe('user does not exist', function () {
             it('resolves with correct result', () =>
-              User.doesExist({
-                dataAdapter,
-                name: nonExistingUserName
-              })
-              .then(
-                doesUserExist => expect(doesUserExist).to.equal(false)
-              )
+              User
+                .doesExist({ dataAdapter, name })
+                .then(
+                  doesUserExist => expect(doesUserExist).to.equal(false)
+                )
             );
           });
         });
@@ -188,13 +188,11 @@ describe('User model', function () {
         describe('lookup by id', function () {
           describe('user exists', function () {
             it('resolves with correct result', () =>
-              User.doesExist({
-                dataAdapter,
-                id: existingUserId
-              })
-              .then(
-                doesUserExist => expect(doesUserExist).to.equal(true)
-              )
+              User
+                .doesExist({ dataAdapter, id, password })
+                .then(
+                  doesUserExist => expect(doesUserExist).to.equal(true)
+                )
             );
           });
 

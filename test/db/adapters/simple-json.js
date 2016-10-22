@@ -133,11 +133,11 @@ describe('SimpleJsonDataAdapter', function () {
       });
 
       describe('lookup by name', function () {
-        const { name } = newUserData;
+        const { name, password } = newUserData;
 
         describe('user does not exist', function () {
           it('returns the correct result', () =>
-            simpleDataAdapter.doesUserExist({ name }).then(
+            simpleDataAdapter.doesUserExist({ name, password }).then(
               doesUserExist => expect(doesUserExist).to.equal(false)
             )
           );
@@ -149,7 +149,7 @@ describe('SimpleJsonDataAdapter', function () {
           );
 
           it('returns the correct result', () =>
-            simpleDataAdapter.doesUserExist({ name }).then(
+            simpleDataAdapter.doesUserExist({ name, password }).then(
               doesUserExist => expect(doesUserExist).to.equal(true)
             )
           );
@@ -157,11 +157,11 @@ describe('SimpleJsonDataAdapter', function () {
       });
 
       describe('lookup by id', function () {
-        const { name, id } = newUserDataWithId;
+        const { name, id, password } = newUserDataWithId;
 
         describe('user does not exist', function () {
           it('returns the correct result', () =>
-            simpleDataAdapter.doesUserExist({ id }).then(
+            simpleDataAdapter.doesUserExist({ id, password }).then(
               doesUserExist => expect(doesUserExist).to.equal(false)
             )
           );
@@ -173,7 +173,7 @@ describe('SimpleJsonDataAdapter', function () {
           );
 
           it('returns the correct result', () =>
-            simpleDataAdapter.doesUserExist({ id }).then(
+            simpleDataAdapter.doesUserExist({ id, password }).then(
               doesUserExist => expect(doesUserExist).to.equal(true)
             )
           );

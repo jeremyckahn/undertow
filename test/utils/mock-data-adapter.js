@@ -26,15 +26,17 @@ class MockDataAdapter extends DataAdapter {
   /**
    * @override
    * @param {Object} options
+   * @param {string} options.password
    * @param {string} [options.id]
    * @param {string} [options.name]
    * @return {Promise}
    */
   doesUserExist (options) {
-    const { id, name } = options;
+    const { id, name, password } = options;
 
     return Promise.resolve(
-      name === existingUserName || id === existingUserId
+      (name === existingUserName || id === existingUserId)
+        && password === existingUserPassword
     );
   }
 

@@ -68,21 +68,22 @@ class SimpleJsonDataAdapter extends DataAdapter {
   /**
    * @override
    * @param {Object} options
+   * @param {string} options.password
    * @param {string} [options.id]
    * @param {string} [options.name]
    * @return {Promise}
    */
   doesUserExist (options) {
-    const { name, id } = options;
+    const { name, id, password } = options;
     const users = this.store.users || {};
 
-    const doesUserExist = !!(name?
+    const user = (name?
       users[name]
       :
       _.find(users, { id })
     );
 
-    return Promise.resolve(doesUserExist);
+    return Promise.resolve(!!(user && user.password === password));
   }
 
   /**
